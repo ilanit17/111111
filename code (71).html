@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מצגת: בית הספר של החופש הגדול לכיתות ד'-ו'</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-purple: #4a148c;
+            --light-purple: #f3e5f5;
+            --accent-blue: #0277bd;
+            --text-dark: #333;
+            --text-light: #ffffff;
+            --bg-light: #f9f9f9;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background-color: #eef2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 1024px;
+            background-color: var(--text-light);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .nav-button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #78909c;
+            color: var(--text-light);
+            font-family: 'Heebo', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .nav-button:hover {
+            background-color: #546e7a;
+            transform: translateY(-2px);
+        }
+
+        .nav-button.active {
+            background-color: var(--accent-blue);
+            font-weight: 700;
+            box-shadow: 0 2px 5px rgba(2, 119, 189, 0.4);
+        }
+
+        main {
+            padding: 30px;
+            background-color: var(--bg-light);
+            flex-grow: 1;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slide.active-slide {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Slide 1: Title */
+        #slide1 {
+            background-color: var(--main-purple);
+            color: var(--text-light);
+            text-align: center;
+            padding: 60px 20px;
+            border-radius: 8px;
+            margin: -30px; /* To fill the padding of main */
+        }
+        #slide1 img {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+        #slide1 h1 {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            font-weight: 700;
+        }
+        #slide1 h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        /* General Styles */
+        h2.slide-title {
+            color: var(--accent-blue);
+            border-bottom: 3px solid var(--accent-blue);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .content-block p, .content-block ul {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+        .content-block ul {
+            padding-right: 20px;
+        }
+        
+        /* Slide 3: Goals */
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .goal-box {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-right: 5px solid var(--accent-blue);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .goal-box h3 {
+            margin-top: 0;
+            color: var(--accent-blue);
+        }
+        
+        /* Slide 4: Principles */
+        .principles-list {
+            list-style: none;
+            padding: 0;
+        }
+        .principles-list li {
+            background-color: #ffffff;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 5px solid #ff9800; /* Orange accent */
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        /* Slide 7 & onwards: Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            text-align: right;
+        }
+        .data-table th {
+            background-color: #0277bd;
+            color: white;
+            font-weight: 700;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #f7f9fc;
+        }
+        .data-table tr:hover {
+            background-color: #e3f2fd;
+        }
+        .data-table .highlight {
+            color: #d32f2f;
+            font-weight: 700;
+        }
+        .table-title {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin: 0 0 10px 0;
+            font-weight: 500;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <header>
+            <nav>
+                <button class="nav-button active" data-slide="slide1">שער</button>
+                <button class="nav-button" data-slide="slide2">רקע</button>
+                <button class="nav-button" data-slide="slide3">מטרות</button>
+                <button class="nav-button" data-slide="slide4">עקרונות</button>
+                <button class="nav-button" data-slide="slide6">רכיבי הפעילות</button>
+                <button class="nav-button" data-slide="slide7">מערכת שעות</button>
+                <button class="nav-button" data-slide="slide8">מתווה 1</button>
+                <button class="nav-button" data-slide="slide9">מתווה 2</button>
+                <button class="nav-button" data-slide="slide10">מתווה 3</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Slide 1: Title -->
+            <div class="slide active-slide" id="slide1">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/d/d1/Emblem_of_Israel.svg" alt="סמל מדינת ישראל">
+                <h1>בית הספר של החופש הגדול<br>לכיתות ד'-ו'</h1>
+                <h2>קיץ של חקר וגילוי - "העולם המופלא סביבנו"</h2>
+                <p>יולי 2025</p>
+            </div>
+
+            <!-- Slide 2: Background -->
+            <div class="slide" id="slide2">
+                <h2 class="slide-title">רקע: קיץ של חקר וגילוי</h2>
+                <div class="content-block">
+                    <p>על רקע מצב החירום המתמשך, תלמידי ישראל, ובפרט תלמידי כיתות ד'-ו', חווים נתק מהשגרה ותחושת חוסר ביטחון. תלמידים בגיל זה מצויים בתקופת מעבר רגישה בין ילדות לנעורים, ומצב החירום עלול לפגוע ביציבותם הרגשית ולהעמיק פערים לימודיים.</p>
+                    <p>התוכנית "חוקרים ומגלים" מציעה מסגרת חינוכית, ערכית וחברתית, המהווה עוגן של יציבות וביטחון. הפעילות תאזן בין העולם הדיגיטלי לצורך החיוני בקשר אנושי, ותספק מענה הוליסטי הכולל למידה חווייתית, תמיכה רגשית וחיזוק תחושת השייכות.</p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Goals -->
+            <div class="slide" id="slide3">
+                <h2 class="slide-title">מטרות התוכנית</h2>
+                <div class="goals-grid">
+                    <div class="goal-box">
+                        <h3>חוסן</h3>
+                        <p>חיזוק החוסן הרגשי, החברתי והקהילתי של התלמידים והתמודדות עם אתגרי התקופה.</p>
+                    </div>
+                    <div class="goal-box">
+                        <h3>צמצום פערים</h3>
+                        <p>תגבור מיומנויות יסוד (שפה, מתמטיקה, אנגלית) בדגש על למידה פעילה מבוססת חקר.</p>
+                    </div>
+                    <div class="goal-box">
+                        <h3>הפגה</h3>
+                        <p>יצירת מסגרת תומכת, יציבה ובטוחה המספקת חוויה חיובית ומשמעותית בחופשה.</p>
+                    </div>
+                    <div class="goal-box">
+                        <h3>חיבור ושייכות</h3>
+                        <p>חיזוק מוסדות החינוך כעוגן קהילתי ותומך חוסן, וטיפוח תחושת השייכות לקבוצה ולקהילה.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 4: Principles -->
+            <div class="slide" id="slide4">
+                <h2 class="slide-title">עקרונות הפעולה</h2>
+                <ul class="principles-list">
+                    <li><b>המשכיות ורציפות:</b> יצירת שגרה מותאמת, סדר יום מובנה ויציבות.</li>
+                    <li><b>שלומות ובטיחות:</b> סביבה תומכת ובטוחה, בהתאם להנחיות פיקוד העורף.</li>
+                    <li><b>שייכות וחיבור:</b> מפגשים חברתיים עם קבוצת השווים וצוות חינוכי מוכר.</li>
+                    <li><b>גיוון ואיזון:</b> שילוב מאוזן בין למידה, פעילות רגשית, הפגה, העשרה ופנאי.</li>
+                    <li><b>אוטונומיה וגמישות:</b> התאמה למאפיינים מקומיים, תוך מתן בחירה למנהלי התוכנית.</li>
+                </ul>
+            </div>
+            
+            <!-- Slide 6: Activity Components -->
+            <div class="slide" id="slide6">
+                <h2 class="slide-title">רכיבי הפעילות</h2>
+                <div class="content-block">
+                    <h3>תחומי הפעילות המרכזיים:</h3>
+                    <ul>
+                        <li><b>מיומנויות יסוד וחקר:</b> תגבור תחומי ליבה (שפת אם, אנגלית, מתמטיקה ומדעים) בלמידה מבוססת תהליכי חקר וגילוי. התנסות בחשיבה יצירתית, ביקורתית, פתרון בעיות ויזמות.</li>
+                        <li><b>פעילות רגשית-חברתית:</b> טיפוח מיומנויות חברתיות, שיח קבוצתי מונחה, סדנאות לחיזוק החוסן, עמידות ותחושת המסוגלות.</li>
+                        <li><b>העשרה והפגה:</b> פעילויות חווייתיות בתחומי אמנות, מוזיקה, ספורט, מדע, דרמה וסדנאות יצירה מגוונות.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Slide 7: Schedule -->
+            <div class="slide" id="slide7">
+                <h2 class="slide-title">דוגמה למערכת שעות שבועית</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>שעה</th>
+                            <th>יום ראשון</th>
+                            <th>יום שני</th>
+                            <th>יום שלישי</th>
+                            <th>יום רביעי</th>
+                            <th>יום חמישי</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>08:30</td>
+                            <td><b>בוקר טוב חוקרים!</b><br>פתיחה ומשחקי היכרות</td>
+                            <td><b>משימה בחלל</b><br>משחקי גיבוש</td>
+                            <td><b>חוקרים סביבה</b><br>סדנת מיחזור ויצירה</td>
+                            <td><b>יום טיול</b><br>ביקור במוזיאון מדע</td>
+                            <td><b>מסכמים תגלית</b><br>סיכום שבועי</td>
+                        </tr>
+                        <tr>
+                            <td>09:00</td>
+                            <td><b>מיומנות חוקר:</b><br>שפה - כתיבת שאלת חקר</td>
+                            <td><b>מיומנות חוקר:</b><br>מתמטיקה - מדידות</td>
+                            <td><b>מיומנות חוקר:</b><br>מדעים - ניסויים</td>
+                            <td>(פעילות חוץ)</td>
+                            <td><b>פרויקט אישי:</b><br>הכנת תוצר מחקר</td>
+                        </tr>
+                        <tr>
+                            <td>10:30</td>
+                            <td colspan="5" style="text-align:center; background-color: #e3f2fd;"><b>הפסקה פעילה</b></td>
+                        </tr>
+                        <tr>
+                            <td>11:00</td>
+                            <td><b>סדנת העשרה:</b><br>דרמה - "ממציאים"</td>
+                            <td><b>סדנת העשרה:</b><br>ספורט שיתופי</td>
+                            <td><b>סדנת העשרה:</b><br>"Science in English"</td>
+                            <td>(פעילות חוץ)</td>
+                            <td><b>הצגת תוצרים</b><br>גלריה שיתופית</td>
+                        </tr>
+                        <tr>
+                            <td>12:30</td>
+                            <td>מעגל סיכום יומי</td>
+                            <td>מעגל סיכום יומי</td>
+                            <td>מעגל סיכום יומי</td>
+                            <td>סיכום חוויתי</td>
+                            <td>מסיבת סיום שבוע</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Slide 8: Model 1 -->
+            <div class="slide" id="slide8">
+                <h2 class="slide-title">מתווה הפעלה 1: תכנית מלאה</h2>
+                <h3 class="table-title">כדוגמת בתיה"ס של החופש הגדול</h3>
+                <table class="data-table">
+                    <tbody>
+                        <tr><th>משך הפעילות</th><td>1.07.25 עד 21.07.25 (3 שבועות), 5 ימים בשבוע, 08:00-13:00</td></tr>
+                        <tr><th>מודל הפעלה</th><td>גורם מפעיל: הרשות המקומית</td></tr>
+                        <tr><th>רכיבי הפעילות</th><td><span class="highlight">מיומנויות יסוד בחקר</span> | הפגה ומשחק | העשרה תרבותית</td></tr>
+                        <tr><th>כוח אדם</th><td>רכז תוכנית, מדריך לקבוצה של עד 28 תלמידים</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Slide 9: Model 2 -->
+            <div class="slide" id="slide9">
+                <h2 class="slide-title">מתווה הפעלה 2: תכנית חלקית</h2>
+                <h3 class="table-title">3 ימים בשבוע במשך 3 שבועות</h3>
+                <table class="data-table">
+                    <tbody>
+                        <tr><th>משך הפעילות</th><td>3 ימים קבועים בשבוע, בין 1.07.25 ל-21.07.25, 08:00-13:00</td></tr>
+                        <tr><th>מודל הפעלה</th><td>גורם מפעיל: החברה למתנ"סים, קרב, או גוף ייעודי אחר</td></tr>
+                        <tr><th>רכיבי הפעילות</th><td><span class="highlight">מיומנויות יסוד בחקר</span> | הפגה ומשחק | העשרה תרבותית</td></tr>
+                        <tr><th>כוח אדם</th><td>רכז תוכנית, מדריך לקבוצה של עד 28 תלמידים</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Slide 10: Model 3 -->
+            <div class="slide" id="slide10">
+                <h2 class="slide-title">מתווה הפעלה 3: מודל היברידי</h2>
+                <h3 class="table-title">3 ימי פעילות פיזית + 2 ימי העשרה וירטואליים</h3>
+                <table class="data-table">
+                    <tbody>
+                        <tr><th>משך הפעילות</th><td>5 ימים בשבוע: 3 ימים פיזיים (08:00-13:00) + 2 ימים עם מפגשי העשרה וירטואליים.</td></tr>
+                        <tr><th>מודל הפעלה</th><td>שילוב בין הרשות המקומית וספקי תוכן דיגיטלי.</td></tr>
+                        <tr><th>רכיבי הפעילות</th><td><span class="highlight">מיומנויות יסוד בחקר</span> | הפגה ומשחק | העשרה תרבותית (פיזית ווירטואלית)</td></tr>
+                        <tr><th>כוח אדם</th><td>רכז תוכנית, מדריך לקבוצה (בימים הפיזיים), מנחים וירטואליים.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('.nav-button');
+            const slides = document.querySelectorAll('.slide');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Get the target slide from the data attribute
+                    const targetSlideId = button.dataset.slide;
+                    const targetSlide = document.getElementById(targetSlideId);
+
+                    // Deactivate all buttons and slides
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    slides.forEach(slide => slide.classList.remove('active-slide'));
+                    
+                    // Activate the clicked button and the target slide
+                    button.classList.add('active');
+                    if (targetSlide) {
+                        targetSlide.classList.add('active-slide');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
