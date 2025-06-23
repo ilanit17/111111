@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מצגת: בית הספר של החופש הגדול לכיתות ד'-ו'</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-purple: #4a148c;
+            --light-purple: #f3e5f5;
+            --accent-blue: #0277bd;
+            --accent-orange: #ff9800;
+            --text-dark: #333;
+            --text-light: #ffffff;
+            --bg-light: #f9f9f9;
+            --border-color: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Heebo', sans-serif;
+            background-color: #eef2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100%;
+            max-width: 1024px;
+            background-color: var(--text-light);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        header {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-bottom: 2px solid var(--border-color);
+            position: relative;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .header-logo {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            height: 50px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+            width: 100%;
+        }
+        
+        #print-button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            font-family: 'Heebo', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s;
+        }
+        #print-button:hover {
+            background-color: #45a049;
+        }
+
+        .nav-button {
+            padding: 10px 15px;
+            border: none;
+            background-color: #78909c;
+            color: var(--text-light);
+            font-family: 'Heebo', sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .nav-button:hover {
+            background-color: #546e7a;
+            transform: translateY(-2px);
+        }
+
+        .nav-button.active {
+            background-color: var(--accent-blue);
+            font-weight: 700;
+            box-shadow: 0 2px 5px rgba(2, 119, 189, 0.4);
+        }
+
+        .nav-button.worksheet-btn {
+            background-color: #ffb74d;
+            color: #424242;
+        }
+        .nav-button.worksheet-btn:hover {
+             background-color: #ffa726;
+        }
+        .nav-button.worksheet-btn.active {
+            background-color: var(--accent-orange);
+            color: white;
+            box-shadow: 0 2px 5px rgba(255, 152, 0, 0.4);
+        }
+
+        main {
+            padding: 30px;
+            background-color: var(--bg-light);
+            flex-grow: 1;
+            min-height: 500px;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slide.active-slide {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Slide 1: Title */
+        #slide1 {
+            background-color: var(--main-purple);
+            color: var(--text-light);
+            text-align: center;
+            padding: 60px 20px;
+            border-radius: 8px;
+            margin: -30px; 
+        }
+        #slide1 .slide1-logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+        #slide1 h1 {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            font-weight: 700;
+        }
+        #slide1 h2 {
+            font-size: 1.5rem;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+
+        /* General Styles */
+        h2.slide-title {
+            color: var(--accent-blue);
+            border-bottom: 3px solid var(--accent-blue);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+        
+        .content-block p, .content-block ul {
+            font-size: 1.1rem;
+            line-height: 1.7;
+            color: var(--text-dark);
+        }
+        .content-block ul {
+            padding-right: 20px;
+        }
+        
+        /* Goals */
+        .goals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .goal-box {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-right: 5px solid var(--accent-blue);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .goal-box h3 {
+            margin-top: 0;
+            color: var(--accent-blue);
+        }
+        
+        /* Principles */
+        .principles-list {
+            list-style: none;
+            padding: 0;
+        }
+        .principles-list li {
+            background-color: #ffffff;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent-orange);
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        /* Tables */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+        .data-table th, .data-table td {
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            text-align: right;
+        }
+        .data-table th {
+            background-color: var(--accent-blue);
+            color: white;
+            font-weight: 700;
+        }
+        .data-table tr:nth-child(even) {
+            background-color: #f7f9fc;
+        }
+        .data-table .highlight {
+            color: #d32f2f;
+            font-weight: 700;
+        }
+        .table-title {
+            text-align: center;
+            font-size: 1.3rem;
+            color: var(--text-dark);
+            margin: 0 0 10px 0;
+            font-weight: 500;
+        }
+        
+        /* Worksheet Styles */
+        .worksheet-form {
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .worksheet-form h3 {
+            color: var(--main-purple);
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="number"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-family: 'Heebo', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box; 
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(2, 119, 189, 0.2);
+        }
+        .form-group textarea {
+            resize: vertical;
+        }
+
+        /* --- PRINT STYLES --- */
+        @media print {
+            body {
+                background-color: white;
+                padding: 0;
+                margin: 0;
+            }
+            header {
+                display: none !important;
+            }
+            .presentation-container {
+                box-shadow: none;
+                border: none;
+                max-width: 100%;
+                margin: 0;
+            }
+            main {
+                padding: 20px;
+                min-height: auto;
+            }
+            .slide {
+                display: block !important;
+                page-break-before: always;
+                animation: none;
+            }
+            #slide1 {
+                page-break-before: auto;
+                background-color: white !important;
+                color: black !important;
+                padding: 20px;
+                margin: 0;
+            }
+            #slide1 h1, #slide1 h2, #slide1 p {
+                color: black !important;
+            }
+            .slide1-logo, .header-logo {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            h2.slide-title {
+                color: black;
+                border-color: black;
+            }
+            .data-table th {
+                background-color: #f2f2f2 !important;
+                color: black !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .worksheet-form {
+                border: 1px solid #ccc;
+            }
+            .form-group input, .form-group textarea {
+                border: 1px solid #999;
+                background-color: #fafafa !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <header>
+             <img src="data:image/png;base64,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" alt="לוגו משרד החינוך - סמל מדינת ישראל" class="header-logo">
+             <div class="header-content">
+                <button id="print-button">🖨️ הדפסה / שמירה כ-PDF</button>
+                <nav>
+                    <button class="nav-button active" data-slide="slide1">שער</button>
+                    <button class="nav-button" data-slide="slide2">רקע</button>
+                    <button class="nav-button" data-slide="slide3">מטרות</button>
+                    <button class="nav-button" data-slide="slide4">עקרונות</button>
+                    <button class="nav-button" data-slide="slide6">רכיבי הפעילות</button>
+                    <button class="nav-button" data-slide="slide8">מתווה 1</button>
+                    <button class="nav-button worksheet-btn" data-slide="slide8-worksheet">הערות למתווה 1</button>
+                    <button class="nav-button" data-slide="slide9">מתווה 2</button>
+                    <button class="nav-button worksheet-btn" data-slide="slide9-worksheet">הערות למתווה 2</button>
+                    <button class="nav-button" data-slide="slide10">מתווה 3</button>
+                    <button class="nav-button worksheet-btn" data-slide="slide10-worksheet">הערות למתווה 3</button>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <!-- Slide 1: Title -->
+            <div class="slide active-slide" id="slide1">
+                <img src="data:image/png;base64,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" alt="סמל מדינת ישראל" class="slide1-logo">
+                <h1>בית הספר של החופש הגדול<br>לכיתות ד'-ו'</h1>
+                <h2>קיץ של חקר וגילוי</h2>
+                <p>יולי 2025</p>
+            </div>
+
+            <!-- Slide 2: Background -->
+            <div class="slide" id="slide2">
+                <h2 class="slide-title">רקע: קיץ של חקר וגילוי</h2>
+                <div class="content-block">
+                    <p>על רקע מצב החירום המתמשך, תלמידי ישראל, ובפרט תלמידי כיתות ד'-ו', חווים נתק מהשגרה ותחושת חוסר ביטחון. תלמידים בגיל זה מצויים בתקופת מעבר רגישה בין ילדות לנעורים, ומצב החירום עלול לפגוע ביציבותם הרגשית ולהעמיק פערים לימודיים.</p>
+                    <p>התוכנית "חוקרים ומגלים" מציעה מסגרת חינוכית, ערכית וחברתית, המהווה עוגן של יציבות וביטחון. הפעילות תאזן בין העולם הדיגיטלי לצורך החיוני בקשר אנושי, ותספק מענה הוליסטי הכולל למידה חווייתית, תמיכה רגשית וחיזוק תחושת השייכות.</p>
+                </div>
+            </div>
+
+            <!-- Slide 3: Goals -->
+            <div class="slide" id="slide3">
+                <h2 class="slide-title">מטרות התוכנית</h2>
+                <div class="goals-grid">
+                    <div class="goal-box">
+                        <h3>חוסן</h3>
+                        <p>חיזוק החוסן הרגשי, החברתי והקהילתי של התלמידים והתמודדות עם אתגרי התקופה.</p>
+                    </div>
+                    <div class="goal-box">
+                        <h3>צמצום פערים</h3>
+                        <p>תגבור מיומנויות יסוד (שפה, מתמטיקה, אנגלית) בדגש על למידה פעילה מבוססת חקר.</p>
+                    </div>
+                    <div class="goal-box">
+                        <h3>הפגה</h3>
+                        <p>יצירת מסגרת תומכת, יציבה ובטוחה המספקת חוויה חיובית ומשמעותית בחופשה.</p>
+                    </div>
+                    <div class="goal-box">
+                        <h3>חיבור ושייכות</h3>
+                        <p>חיזוק מוסדות החינוך כעוגן קהילתי ותומך חוסן, וטיפוח תחושת השייכות לקבוצה ולקהילה.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Slide 4: Principles -->
+            <div class="slide" id="slide4">
+                <h2 class="slide-title">עקרונות הפעולה</h2>
+                <ul class="principles-list">
+                    <li><b>המשכיות ורציפות:</b> יצירת שגרה מותאמת, סדר יום מובנה ויציבות.</li>
+                    <li><b>שלומות ובטיחות:</b> סביבה תומכת ובטוחה, בהתאם להנחיות פיקוד העורף.</li>
+                    <li><b>שייכות וחיבור:</b> מפגשים חברתיים עם קבוצת השווים וצוות חינוכי מוכר.</li>
+                    <li><b>גיוון ואיזון:</b> שילוב מאוזן בין למידה, פעילות רגשית, הפגה, העשרה ופנאי.</li>
+                    <li><b>אוטונומיה וגמישות:</b> התאמה למאפיינים מקומיים, תוך מתן בחירה למנהלי התוכנית.</li>
+                </ul>
+            </div>
+            
+            <!-- Slide 6: Activity Components -->
+            <div class="slide" id="slide6">
+                <h2 class="slide-title">רכיבי הפעילות</h2>
+                <div class="content-block">
+                    <h3>תחומי הפעילות המרכזיים:</h3>
+                    <ul>
+                        <li><b>מיומנויות יסוד וחקר:</b> תגבור תחומי ליבה (שפת אם, אנגלית, מתמטיקה ומדעים) בלמידה מבוססת תהליכי חקר וגילוי. התנסות בחשיבה יצירתית, ביקורתית, פתרון בעיות ויזמות.</li>
+                        <li><b>פעילות רגשית-חברתית:</b> טיפוח מיומנויות חברתיות, שיח קבוצתי מונחה, סדנאות לחיזוק החוסן, עמידות ותחושת המסוגלות.</li>
+                        <li><b>העשרה והפגה:</b> פעילויות חווייתיות בתחומי אמנות, מוזיקה, ספורט, מדע, דרמה וסדנאות יצירה מגוונות.</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Slide 8: Model 1 -->
+            <div class="slide" id="slide8">
+                <h2 class="slide-title">מתווה הפעלה 1: תכנית מלאה</h2>
+                <h3 class="table-title">כדוגמת בתיה"ס של החופש הגדול</h3>
+                <table class="data-table">
+                    <tbody>
+                        <tr><th>משך הפעילות</th><td>1.07.25 עד 21.07.25 (3 שבועות), 5 ימים בשבוע, 08:00-13:00</td></tr>
+                        <tr><th>מודל הפעלה</th><td>גורם מפעיל: הרשות המקומית</td></tr>
+                        <tr><th>רכיבי הפעילות</th><td><span class="highlight">מיומנויות יסוד בחקר</span> | הפגה ומשחק | העשרה תרבותית</td></tr>
+                        <tr><th>כוח אדם</th><td>רכז תוכנית, מדריך לקבוצה של עד 28 תלמידים</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+             <!-- Slide 8 Worksheet -->
+            <div class="slide" id="slide8-worksheet">
+                <h2 class="slide-title">הערות ותכנון למתווה 1: תכנית מלאה</h2>
+                <div class="worksheet-form">
+                    <div class="form-group">
+                        <label for="budget1">תקציב לילד:</label>
+                        <input type="text" id="budget1" placeholder="לדוגמה: 100 ₪ לתלמיד">
+                    </div>
+                    <div class="form-group">
+                        <label for="group-size1">מס' ילדים בקבוצה:</label>
+                        <input type="number" id="group-size1" placeholder="לדוגמה: 28">
+                    </div>
+                    <h3>פירוט רכיבי התקציב:</h3>
+                    <div class="form-group">
+                        <label for="staff1">כוח אדם (כ"א):</label>
+                        <textarea id="staff1" rows="3" placeholder="פרט את הצוות הנדרש, תפקידים, עלויות..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="activities1">פעילויות:</label>
+                        <textarea id="activities1" rows="3" placeholder="רעיונות לפעילויות העשרה, טיולים, סדנאות..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplies1">ציוד מתכלה:</label>
+                        <textarea id="supplies1" rows="3" placeholder="חומרי יצירה, ציוד משרדי, כיבוד קל..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="management1">ניהול התוכנית:</label>
+                        <textarea id="management1" rows="3" placeholder="עלויות ניהול, תיאום, שיווק, ביטוח..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 9: Model 2 -->
+            <div class="slide" id="slide9">
+                <h2 class="slide-title">מתווה הפעלה 2: תכנית חלקית</h2>
+                <h3 class="table-title">3 ימים בשבוע במשך 3 שבועות</h3>
+                <table class="data-table">
+                    <tbody>
+                        <tr><th>משך הפעילות</th><td>3 ימים קבועים בשבוע, בין 1.07.25 ל-21.07.25, 08:00-13:00</td></tr>
+                        <tr><th>מודל הפעלה</th><td>גורם מפעיל: החברה למתנ"סים, קרב, או גוף ייעודי אחר</td></tr>
+                        <tr><th>רכיבי הפעילות</th><td><span class="highlight">מיומנויות יסוד בחקר</span> | הפגה ומשחק | העשרה תרבותית</td></tr>
+                        <tr><th>כוח אדם</th><td>רכז תוכנית, מדריך לקבוצה של עד 28 תלמידים</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Slide 9 Worksheet -->
+            <div class="slide" id="slide9-worksheet">
+                <h2 class="slide-title">הערות ותכנון למתווה 2: תכנית חלקית</h2>
+                <div class="worksheet-form">
+                    <div class="form-group">
+                        <label for="budget2">תקציב לילד:</label>
+                        <input type="text" id="budget2" placeholder="לדוגמה: 100 ₪ לתלמיד (מותאם למספר הימים)">
+                    </div>
+                    <div class="form-group">
+                        <label for="group-size2">מס' ילדים בקבוצה:</label>
+                        <input type="number" id="group-size2" placeholder="לדוגמה: 28">
+                    </div>
+                    <h3>פירוט רכיבי התקציב:</h3>
+                    <div class="form-group">
+                        <label for="staff2">כוח אדם (כ"א):</label>
+                        <textarea id="staff2" rows="3" placeholder="פרט את הצוות הנדרש, תפקידים, עלויות..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="activities2">פעילויות:</label>
+                        <textarea id="activities2" rows="3" placeholder="רעיונות לפעילויות העשרה, טיולים, סדנאות..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplies2">ציוד מתכלה:</label>
+                        <textarea id="supplies2" rows="3" placeholder="חומרי יצירה, ציוד משרדי, כיבוד קל..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="management2">ניהול התוכנית:</label>
+                        <textarea id="management2" rows="3" placeholder="עלויות ניהול, תיאום, שיווק, ביטוח..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 10: Model 3 -->
+            <div class="slide" id="slide10">
+                <h2 class="slide-title">מתווה הפעלה 3: מודל היברידי</h2>
+                <h3 class="table-title">3 ימי פעילות פיזית + 2 ימי העשרה וירטואליים</h3>
+                <table class="data-table">
+                    <tbody>
+                        <tr><th>משך הפעילות</th><td>5 ימים בשבוע: 3 ימים פיזיים (08:00-13:00) + 2 ימים עם מפגשי העשרה וירטואליים.</td></tr>
+                        <tr><th>מודל הפעלה</th><td>שילוב בין הרשות המקומית וספקי תוכן דיגיטלי.</td></tr>
+                        <tr><th>רכיבי הפעילות</th><td><span class="highlight">מיומנויות יסוד בחקר</span> | הפגה ומשחק | העשרה תרבותית (פיזית ווירטואלית)</td></tr>
+                        <tr><th>כוח אדם</th><td>רכז תוכנית, מדריך לקבוצה (בימים הפיזיים), מנחים וירטואליים.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Slide 10 Worksheet -->
+            <div class="slide" id="slide10-worksheet">
+                <h2 class="slide-title">הערות ותכנון למתווה 3: מודל היברידי</h2>
+                <div class="worksheet-form">
+                    <div class="form-group">
+                        <label for="budget3">תקציב לילד:</label>
+                        <input type="text" id="budget3" placeholder="יש לחשב תקציב מפוצל (פיזי/וירטואלי)">
+                    </div>
+                    <div class="form-group">
+                        <label for="group-size3">מס' ילדים בקבוצה:</label>
+                        <input type="number" id="group-size3" placeholder="לדוגמה: 28">
+                    </div>
+                    <h3>פירוט רכיבי התקציב:</h3>
+                    <div class="form-group">
+                        <label for="staff3">כוח אדם (כ"א):</label>
+                        <textarea id="staff3" rows="3" placeholder="צוות פיזי, מנחים וירטואליים, תמיכה טכנית..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="activities3">פעילויות:</label>
+                        <textarea id="activities3" rows="3" placeholder="פעילויות פיזיות, פלטפורמות וירטואליות, סדנאות אונליין..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplies3">ציוד מתכלה:</label>
+                        <textarea id="supplies3" rows="3" placeholder="חומרי יצירה פיזיים, רישיונות תוכנה, ערכות למשלוח..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="management3">ניהול התוכנית:</label>
+                        <textarea id="management3" rows="3" placeholder="ניהול לוגיסטי משולב, תיאום ספקים..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navButtons = document.querySelectorAll('.nav-button');
+            const slides = document.querySelectorAll('.slide');
+            const printButton = document.getElementById('print-button');
+
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetSlideId = button.dataset.slide;
+                    const targetSlide = document.getElementById(targetSlideId);
+
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    slides.forEach(slide => slide.classList.remove('active-slide'));
+                    
+                    button.classList.add('active');
+                    if (targetSlide) {
+                        targetSlide.classList.add('active-slide');
+                    }
+                });
+            });
+
+            printButton.addEventListener('click', () => {
+                window.print();
+            });
+        });
+    </script>
+</body>
+</html>
