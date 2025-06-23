@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ספר הזכרונות שלי</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap">
+  <style>
+    :root {
+      --primary-color: #4e7dff;
+      --secondary-color: #ff6b6b;
+      --accent-color: #ffbe0b;
+      --text-color: #333;
+      --light-bg: #f8f9fa;
+      --box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    body {
+      font-family: 'Varela Round', 'Arial Hebrew', Arial, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      margin: 0;
+      padding: 20px;
+      direction: rtl;
+      min-height: 100vh;
+      transition: background 0.5s ease;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: var(--box-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 150px;
+      height: 150px;
+      background: linear-gradient(135deg, var(--accent-color) 0%, transparent 100%);
+      opacity: 0.1;
+      border-radius: 0 0 0 100%;
+    }
+    
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 30px;
+      font-size: 2.2rem;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      border-radius: 2px;
+    }
+    
+    h2 {
+      color: var(--secondary-color);
+      border-right: 4px solid var(--accent-color);
+      padding-right: 10px;
+      margin-top: 30px;
+    }
+    
+    .page {
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 2px dashed #ccc;
+      animation: fadeIn 0.5s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .quote {
+      font-style: italic;
+      text-align: center;
+      margin: 30px 0;
+      color: #666;
+      background-color: var(--light-bg);
+      padding: 15px;
+      border-radius: 10px;
+      position: relative;
+    }
+    
+    .quote::before, .quote::after {
+      content: '"';
+      font-size: 2rem;
+      color: var(--accent-color);
+      position: absolute;
+      opacity: 0.5;
+    }
+    
+    .quote::before {
+      top: -10px;
+      right: 10px;
+    }
+    
+    .quote::after {
+      bottom: -20px;
+      left: 10px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: var(--text-color);
+      transition: all 0.3s ease;
+    }
+    
+    input, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 12px 15px;
+      border: 2px solid #e1e5eb;
+      border-radius: 10px;
+      font-size: 16px;
+      direction: rtl;
+      transition: all 0.3s ease;
+      background-color: #fff;
+      color: var(--text-color);
+      font-family: 'Varela Round', 'Arial Hebrew', Arial, sans-serif;
+    }
+    
+    input:focus, textarea:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(78, 125, 255, 0.2);
+      outline: none;
+    }
+    
+    textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .input-icon {
+      position: absolute;
+      left: 15px;
+      top: 40px;
+      color: #aaa;
+      transition: all 0.3s ease;
+    }
+    
+    input:focus + .input-icon, textarea:focus + .input-icon {
+      color: var(--primary-color);
+    }
+    
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+    
+    button {
+      padding: 12px 25px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'Varela Round', 'Arial Hebrew', Arial, sans-serif;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    button:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+    }
+
+    .creator {
+      text-align: left;
+      font-size: 14px;
+      color: #888;
+      margin-top: 20px;
+      font-style: italic;
+    }
+    
+    .page-indicator {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--text-color);
+      font-weight: bold;
+      background-color: var(--light-bg);
+      padding: 8px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      position: relative;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .print-button {
+      background-color: #28a745;
+    }
+    
+    .save-button {
+      background-color: var(--secondary-color);
+    }
+    
+    .theme-toggle {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      background: none;
+      border: none;
+      color: var(--text-color);
+      font-size: 1.5rem;
+      cursor: pointer;
+      z-index: 10;
+    }
+    
+    .image-upload {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px 0;
+    }
+    
+    .image-preview {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--primary-color);
+      margin-bottom: 10px;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #aaa;
+      font-size: 3rem;
+      transition: all 0.3s ease;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    .image-preview:hover {
+      transform: scale(1.05);
+    }
+    
+    .image-upload-button {
+      background-color: var(--light-bg);
+      color: var(--text-color);
+      border: 1px solid #ddd;
+      padding: 8px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .image-upload-button:hover {
+      background-color: #e9ecef;
+    }
+    
+    .emoji-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 15px 0;
+      justify-content: center;
+    }
+    
+    .emoji {
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+    
+    .emoji:hover {
+      transform: scale(1.2);
+    }
+    
+    .progress-container {
+      width: 100%;
+      height: 10px;
+      background-color: #e9ecef;
+      border-radius: 5px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      width: 0;
+      transition: width 1s ease;
+    }
+
+    .color-palette {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    
+    .color-option {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      border: 2px solid white;
+    }
+    
+    .color-option:hover {
+      transform: scale(1.2);
+    }
+    
+    .color-option.selected {
+      box-shadow: 0 0 0 3px var(--primary-color);
+    }
+
+    .color-blue { background-color: #4e7dff; }
+    .color-pink { background-color: #ff6b6b; }
+    .color-green { background-color: #28a745; }
+    .color-purple { background-color: #9b59b6; }
+    .color-orange { background-color: #ff9f43; }
+    
+    .mood-selector {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .mood {
+      font-size: 2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      opacity: 0.5;
+    }
+    
+    .mood.selected {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+
+    /* Animations */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .float {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    /* Print Styles */
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      .container {
+        box-shadow: none;
+        border-radius: 0;
+        padding: 10px;
+      }
+      body {
+        background: white;
+        padding: 0;
+        margin: 0;
+      }
+      .page {
+        page-break-after: always;
+        border-bottom: none;
+        margin-bottom: 0;
+      }
+      .page:last-child {
+        page-break-after: avoid;
+      }
+      h1, h2 {
+        color: #000 !important;
+      }
+      .image-preview {
+        border-color: #000 !important;
+      }
+    }
+    
+    /* Dark Mode */
+    body.dark-mode {
+      background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+    }
+    
+    body.dark-mode .container {
+      background-color: #2d3748;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+    
+    body.dark-mode h1,
+    body.dark-mode h2,
+    body.dark-mode label,
+    body.dark-mode .creator,
+    body.dark-mode .page-indicator {
+      color: #e2e8f0;
+    }
+    
+    body.dark-mode input,
+    body.dark-mode textarea {
+      background-color: #4a5568;
+      color: #e2e8f0;
+      border-color: #2d3748;
+    }
+    
+    body.dark-mode .quote {
+      background-color: #4a5568;
+      color: #e2e8f0;
+    }
+    
+    body.dark-mode .theme-toggle {
+      color: #e2e8f0;
+    }
+
+    /* --- Responsive styles for Mobile --- */
+    @media (max-width: 768px) {
+        .buttons {
+        flex-direction: column; /* סדר את הכפתורים בעמודה, אחד מתחת לשני */
+        align-items: center; /* מרכז את הכפתורים לרוחב */
+        gap: 15px; /* מוסיף רווח בין הכפתורים */
+        }
+
+        .buttons button {
+        width: 80%; /* נותן לכל כפתור רוחב אחיד ונוח ללחיצה */
+        justify-content: center; /* מרכז את הטקסט והאייקון בתוך הכפתור */
+        }
+        
+        .container {
+        padding: 15px; /* מקטין מעט את הריפוד הפנימי במובייל */
+        }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <button id="theme-toggle" class="theme-toggle no-print">
+      <i class="fas fa-moon"></i>
+    </button>
+    
+    <div class="page-indicator no-print">עמוד <span id="current-page">1</span> מתוך <span id="total-pages">5</span></div>
+    
+    <div class="progress-container no-print">
+      <div id="progress-bar" class="progress-bar"></div>
+    </div>
+    
+    <!-- עמוד 1 -->
+    <div class="page" id="page1">
+      <h1>ספר הזכרונות שלי <i class="fas fa-book float"></i></h1>
+      
+      <div class="image-upload">
+        <div id="profile-preview" class="image-preview">
+          <i class="fas fa-user"></i>
+        </div>
+        <input type="file" id="profile-upload" accept="image/*" style="display: none;">
+        <button class="image-upload-button no-print" onclick="document.getElementById('profile-upload').click()">
+          <i class="fas fa-camera"></i> הוסף תמונה
+        </button>
+      </div>
+      
+      <div class="header">
+        <div class="form-group">
+          <label for="name"><i class="fas fa-user-circle"></i> שם:</label>
+          <input type="text" id="name" name="name" placeholder="הקלד את שמך כאן">
+        </div>
+        <div class="form-group">
+          <label for="class"><i class="fas fa-chalkboard"></i> כיתה:</label>
+          <input type="text" id="class" name="class" placeholder="באיזו כיתה את/ה?">
+        </div>
+        <div class="form-group">
+          <label for="school"><i class="fas fa-school"></i> בית ספר:</label>
+          <input type="text" id="school" name="school" placeholder="שם בית הספר שלך">
+        </div>
+      </div>
+      
+      <div class="quote pulse">
+        "החלומות שלך לא צריכים להיות גדולים, הם צריכים להיות שלך" (גרי וי)
+      </div>
+      
+      <div class="color-palette no-print">
+        <div class="color-option color-blue selected" data-color="blue"></div>
+        <div class="color-option color-pink" data-color="pink"></div>
+        <div class="color-option color-green" data-color="green"></div>
+        <div class="color-option color-purple" data-color="purple"></div>
+        <div class="color-option color-orange" data-color="orange"></div>
+      </div>
+      
+      <div class="creator">יצרה: יעל שטיינברג</div>
+    </div>
+
+    <!-- עמוד 2 -->
+    <div class="page" id="page2" style="display: none;">
+      <h1>זיכרונות מהשנה <i class="fas fa-heart"></i></h1>
+      
+      <h2><i class="fas fa-laugh-squint"></i> מקרה מצחיק שקרה לי</h2>
+      <div class="form-group">
+        <textarea id="funny-story" name="funny-story" placeholder="ספר/י על מקרה מצחיק שקרה לך השנה..."></textarea>
+      </div>
+      
+      <h2><i class="fas fa-lightbulb"></i> דבר חדש ומעניין שלמדתי</h2>
+      <div class="form-group">
+        <textarea id="new-thing" name="new-thing" placeholder="משהו חדש שלמדת על עצמך, על חבר, או בשיעור..."></textarea>
+      </div>
+      
+      <h2><i class="fas fa-trophy"></i> הישג שאני גאה בו</h2>
+      <div class="form-group">
+        <textarea id="achievement" name="achievement" placeholder="משהו שהתאמצת והצלחת בו, גדול או קטן..."></textarea>
+      </div>
+
+      <div class="creator">יצרה: יעל שטיינברג</div>
+    </div>
+
+    <!-- עמוד 3 -->
+    <div class="page" id="page3" style="display: none;">
+      <h1>החברים שלי <i class="fas fa-users float"></i></h1>
+        
+      <h2><i class="fas fa-user-friends"></i> החבר/ה הכי טוב/ים שלי הם:</h2>
+      <div class="form-group">
+        <textarea id="best-friends" name="best-friends" placeholder="כתבו כאן את שמות החברים הטובים שלכם..."></textarea>
+      </div>
+        
+      <h2><i class="fas fa-gamepad"></i> מה הכי אהבנו לעשות יחד?</h2>
+      <div class="form-group">
+        <textarea id="friend-activities" name="friend-activities" placeholder="לשחק במחשב, לדבר, לשחק כדורגל, ליצור..."></textarea>
+      </div>
+        
+      <div class="image-upload">
+        <div id="friends-preview" class="image-preview">
+          <i class="fas fa-users"></i>
+        </div>
+        <input type="file" id="friends-upload" accept="image/*" style="display: none;">
+        <button class="image-upload-button no-print" onclick="document.getElementById('friends-upload').click()">
+          <i class="fas fa-camera"></i> הוסף תמונה של החברים
+        </button>
+      </div>
+        
+      <div class="creator">יצרה: יעל שטיינברג</div>
+    </div>
+
+    <!-- עמוד 4 -->
+    <div class="page" id="page4" style="display: none;">
+      <h1>תודות ואיחולים <i class="fas fa-gift pulse"></i></h1>
+      
+      <h2><i class="fas fa-hand-holding-heart"></i> אני רוצה להגיד תודה ל...</h2>
+      <div class="form-group">
+        <textarea id="thanks-to" name="thanks-to" placeholder="למורה, לחבר/ה, להורים, על משהו שעזרו או לימדו..."></textarea>
+      </div>
+        
+      <h2><i class="fas id-card"></i> משהו שהייתי רוצה שידעו עליי</h2>
+        <div class="form-group">
+          <textarea id="about-me" name="about-me" placeholder="תחביב מיוחד, חלום, משהו שמצחיק אותי..."></textarea>
+        </div>
+
+      <h2><i class="fas fa-comment-dots"></i> מסר מהחברים (בקשו מהם לכתוב כאן משהו!)</h2>
+      <div class="form-group">
+        <textarea id="friends-messages" name="friends-messages" placeholder="מקום להודעות, ברכות ואיחולים מהחברים לכיתה"></textarea>
+      </div>
+      
+      <div class="creator">יצרה: יעל שטיינברג</div>
+    </div>
+    
+    <!-- עמוד 5 -->
+    <div class="page" id="page5" style="display: none;">
+      <h1>חופשה נעימה! <i class="fas fa-sun float"></i></h1>
+      
+      <h2><i class="fas fa-suitcase-rolling"></i> התכניות שלי לחופש הגדול</h2>
+      <div class="form-group">
+        <textarea id="vacation-plans" name="vacation-plans" placeholder="לנסוע לים, לבקר את סבא וסבתא, לקרוא ספר, לשחק עם חברים..."></textarea>
+      </div>
+      
+      <h2><i class="fas fa-image"></i> תמונה כיתתית למזכרת</h2>
+      <div class="image-upload">
+        <div id="class-preview" class="image-preview" style="border-radius: 10px; width: 80%; height: 200px;">
+          <i class="fas fa-school"></i>
+        </div>
+        <input type="file" id="class-upload" accept="image/*" style="display: none;">
+        <button class="image-upload-button no-print" onclick="document.getElementById('class-upload').click()">
+          <i class="fas fa-camera-retro"></i> הוסף תמונה כיתתית
+        </button>
+      </div>
+      
+      <div class="quote pulse">
+        "נתראה בשנה הבאה עם חוויות חדשות!"
+      </div>
+      
+      <div class="creator">יצרה: יעל שטיינברג</div>
+    </div>
+
+    <!-- כפתורי ניווט ובקרה -->
+    <div class="buttons no-print">
+      <button id="prev-btn"><i class="fas fa-arrow-right"></i> הקודם</button>
+      <button id="print-btn" class="print-button"><i class="fas fa-print"></i> הדפס / שמור כ-PDF</button>
+      <button id="next-btn">הבא <i class="fas fa-arrow-left"></i></button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const pages = document.querySelectorAll('.page');
+      const totalPages = pages.length;
+      let currentPage = 1;
+
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const printBtn = document.getElementById('print-btn');
+      const currentPageSpan = document.getElementById('current-page');
+      const totalPagesSpan = document.getElementById('total-pages');
+      const progressBar = document.getElementById('progress-bar');
+      const themeToggle = document.getElementById('theme-toggle');
+
+      // --- שמירה וטעינה מ-localStorage ---
+      const formElements = document.querySelectorAll('input, textarea');
+      formElements.forEach(el => {
+        // טעינה
+        const savedValue = localStorage.getItem(el.id);
+        if (savedValue) {
+          el.value = savedValue;
+        }
+        // שמירה
+        el.addEventListener('input', () => {
+          localStorage.setItem(el.id, el.value);
+        });
+      });
+
+      // --- פונקציות ניווט ---
+      function showPage(pageNumber) {
+        pages.forEach(page => page.style.display = 'none');
+        document.getElementById(`page${pageNumber}`).style.display = 'block';
+        currentPageSpan.textContent = pageNumber;
+        updateButtons();
+        updateProgressBar();
+      }
+
+      function updateButtons() {
+        prevBtn.disabled = (currentPage === 1);
+        nextBtn.disabled = (currentPage === totalPages);
+        if(currentPage === totalPages) {
+          nextBtn.innerHTML = 'סיום <i class="fas fa-check"></i>';
+          nextBtn.classList.add('save-button');
+        } else {
+          nextBtn.innerHTML = 'הבא <i class="fas fa-arrow-left"></i>';
+          nextBtn.classList.remove('save-button');
+        }
+      }
+
+      function updateProgressBar() {
+        const progress = ((currentPage - 1) / (totalPages - 1)) * 100;
+        progressBar.style.width = `${progress}%`;
+      }
+      
+      nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          showPage(currentPage);
+        } else {
+          // אפקט קונפטי בסיום
+          alert('כל הכבוד! סיימת למלא את ספר הזכרונות!');
+        }
+      });
+
+      prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          showPage(currentPage);
+        }
+      });
+      
+      printBtn.addEventListener('click', () => {
+        window.print();
+      });
+
+      totalPagesSpan.textContent = totalPages;
+      showPage(currentPage);
+
+      // --- העלאת תמונות ---
+      function setupImageUpload(inputId, previewId) {
+        const uploadInput = document.getElementById(inputId);
+        const previewElement = document.getElementById(previewId);
+        
+        // טעינה מ-localStorage
+        const savedImage = localStorage.getItem(inputId);
+        if(savedImage) {
+            previewElement.style.backgroundImage = `url(${savedImage})`;
+            previewElement.innerHTML = '';
+        }
+
+        uploadInput.addEventListener('change', function(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              previewElement.style.backgroundImage = `url(${e.target.result})`;
+              previewElement.innerHTML = ''; // מנקה את אייקון ברירת המחדל
+              // שמירה ב-localStorage
+              try {
+                localStorage.setItem(inputId, e.target.result);
+              } catch (error) {
+                  console.error("Failed to save image to localStorage:", error);
+                  alert("התמונה גדולה מדי לשמירה מקומית, אך תוצג עד לרענון הדף.");
+              }
+            }
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+      setupImageUpload('profile-upload', 'profile-preview');
+      setupImageUpload('friends-upload', 'friends-preview');
+      setupImageUpload('class-upload', 'class-preview');
+
+      // --- מצב לילה ---
+      const isDarkMode = localStorage.getItem('darkMode') === 'true';
+      if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      }
+
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const isNowDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isNowDark);
+        themeToggle.innerHTML = isNowDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+      });
+
+      // --- בחירת צבעים ---
+      const colorOptions = document.querySelectorAll('.color-option');
+      const colorSchemes = {
+          blue: { primary: '#4e7dff', secondary: '#ff6b6b', accent: '#ffbe0b' },
+          pink: { primary: '#ff6b6b', secondary: '#4ECDC4', accent: '#feca57' },
+          green: { primary: '#28a745', secondary: '#f39c12', accent: '#3498db' },
+          purple: { primary: '#9b59b6', secondary: '#34495e', accent: '#1abc9c' },
+          orange: { primary: '#ff9f43', secondary: '#1e90ff', accent: '#ff6348' }
+      };
+
+      colorOptions.forEach(option => {
+          option.addEventListener('click', () => {
+              const theme = option.dataset.color;
+              const { primary, secondary, accent } = colorSchemes[theme];
+              document.documentElement.style.setProperty('--primary-color', primary);
+              document.documentElement.style.setProperty('--secondary-color', secondary);
+              document.documentElement.style.setProperty('--accent-color', accent);
+              
+              colorOptions.forEach(opt => opt.classList.remove('selected'));
+              option.classList.add('selected');
+
+              localStorage.setItem('colorTheme', theme);
+          });
+      });
+      
+      const savedTheme = localStorage.getItem('colorTheme');
+      if (savedTheme && colorSchemes[savedTheme]) {
+        document.querySelector(`.color-option[data-color="${savedTheme}"]`).click();
+      }
+
+    });
+  </script>
+</body>
+</html>
