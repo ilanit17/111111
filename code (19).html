@@ -23,11 +23,11 @@
       font-family: 'Frank Ruhl Libre', 'Arial Hebrew', serif;
       background-color: var(--bg-color);
       margin: 0;
-      padding: 15px; /* Adjusted padding for mobile */
+      padding: 15px;
       direction: rtl;
       display: flex;
       justify-content: center;
-      align-items: flex-start; /* Aligned to top for better scrolling on mobile */
+      align-items: flex-start;
       min-height: 100vh;
     }
 
@@ -43,53 +43,19 @@
       border: 5px solid var(--primary-color);
     }
 
-    .page {
-      display: none;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-
-    .page.active {
-      display: block;
-    }
+    .page { display: none; animation: fadeIn 0.5s ease-in-out; }
+    .page.active { display: block; }
     
     @keyframes fadeIn {
         from { opacity: 0; transform: translateY(15px); }
         to { opacity: 1; transform: translateY(0); }
     }
 
-    h1 {
-      text-align: center;
-      color: var(--primary-color);
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      color: var(--accent-color);
-      font-size: 1.8rem;
-      margin-top: 25px;
-      margin-bottom: 15px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-
-    h2 .fas {
-      font-size: 2rem;
-      color: var(--secondary-color);
-    }
-
-    .form-group {
-      margin-bottom: 25px;
-    }
-
-    label {
-      display: block;
-      font-size: 1.5rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-      color: var(--text-color);
-    }
+    h1 { text-align: center; color: var(--primary-color); font-size: 2.5rem; margin-bottom: 20px; }
+    h2 { color: var(--accent-color); font-size: 1.8rem; margin-top: 25px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; }
+    h2 .fas { font-size: 2rem; color: var(--secondary-color); }
+    .form-group { margin-bottom: 25px; }
+    label { display: block; font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; color: var(--text-color); }
 
     textarea {
       width: 100%;
@@ -104,111 +70,52 @@
       transition: border-color 0.3s;
     }
 
-    textarea:focus {
-      border-color: var(--primary-color);
-      outline: none;
-    }
+    textarea:focus { border-color: var(--primary-color); outline: none; }
 
-    .navigation {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 30px;
-      padding-top: 20px;
-      border-top: 2px dashed #ddd;
-    }
+    .navigation { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; padding-top: 20px; border-top: 2px dashed #ddd; }
+    .nav-button { padding: 12px 25px; font-size: 1.3rem; font-weight: bold; border: none; border-radius: 12px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; background-color: var(--primary-color); color: white; white-space: nowrap; }
+    .nav-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+    .nav-button:disabled { background-color: #ccc; cursor: not-allowed; }
+    #print-btn { background-color: #28a745; }
+    .page-indicator { font-size: 1.3rem; font-weight: bold; color: var(--text-color); }
 
-    .nav-button {
-      padding: 12px 25px;
-      font-size: 1.3rem;
-      font-weight: bold;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      background-color: var(--primary-color);
-      color: white;
-      white-space: nowrap; /* Prevents text from wrapping */
-    }
-
-    .nav-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-    
-    .nav-button:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-    
-    #print-btn {
-        background-color: #28a745;
-    }
-
-    .page-indicator {
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: var(--text-color);
-    }
-
-    .sticky-notes-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .sticky-note {
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 3px 3px 7px rgba(0,0,0,0.1);
-    }
-    .sticky-note textarea {
-      background: transparent;
-      border: none;
-      min-height: 120px;
-    }
+    .sticky-notes-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .sticky-note { padding: 15px; border-radius: 10px; box-shadow: 3px 3px 7px rgba(0,0,0,0.1); position: relative; }
+    .sticky-note textarea { background: transparent; border: none; min-height: 120px; padding-bottom: 40px; }
     .sticky-note-1 { background-color: #fffb8f; }
     .sticky-note-2 { background-color: #a7ffb5; }
     .sticky-note-3 { background-color: #a7d7ff; }
     .sticky-note-4 { background-color: #ffb5a7; }
+
+    .speech-icon {
+      position: absolute;
+      left: 15px;
+      bottom: 15px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      color: #888;
+      transition: color 0.3s, transform 0.3s;
+    }
+    .speech-icon:hover { color: var(--primary-color); transform: scale(1.1); }
+    .speech-icon.listening { color: #e74c3c; animation: pulse 1.5s infinite; }
     
-    .postcard {
-        border: 2px dashed #333;
-        padding: 20px;
-        background-color: #fdfcdc;
-        border-radius: 10px;
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
     }
     
     @media print {
-      body {
-        padding: 0;
-        background-color: white;
-      }
-      .container {
-        box-shadow: none;
-        border: none;
-      }
-      .navigation, .no-print {
-        display: none !important;
-      }
-      .page {
-        page-break-after: always;
-      }
-      .page:last-child {
-        page-break-after: avoid;
-      }
+      body { padding: 0; background-color: white; }
+      .container { box-shadow: none; border: none; }
+      .navigation, .no-print { display: none !important; }
+      .page { page-break-after: always; }
+      .page:last-child { page-break-after: avoid; }
     }
     
-    /* --- Responsive styles for Mobile --- */
     @media (max-width: 600px) {
-      .navigation {
-        flex-direction: column; /* Stack vertically */
-        gap: 15px;             /* Add space between items */
-      }
-      .nav-button {
-        width: 100%;           /* Make buttons take full width */
-      }
+      .navigation { flex-direction: column; gap: 15px; }
+      .nav-button { width: 100%; }
     }
     
   </style>
@@ -221,108 +128,55 @@
     <div class="page active" id="page1">
       <h1><i class="fas fa-heart" style="color: #ff6b6b;"></i> סֵפֶר הַזִּכְרוֹנוֹת שֶׁלִּי</h1>
       <h2>מִכִּתָּה א'</h2>
-      
-      <div class="form-group">
-        <label for="name">שֵׁם:</label>
-        <textarea id="name" rows="1"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="school">בֵּית סֵפֶר:</label>
-        <textarea id="school" rows="1"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="teacher">שֵׁם הַמְּחַנֶּכֶת שֶׁלִּי:</label>
-        <textarea id="teacher" rows="1"></textarea>
-      </div>
-      <div style="text-align: center; margin-top: 30px;">
-        <i class="fas fa-camera-retro" style="font-size: 6rem; color: #555;"></i>
-      </div>
+      <div class="form-group"><label for="name">שֵׁם:</label><textarea id="name" rows="1"></textarea></div>
+      <div class="form-group"><label for="school">בֵּית סֵפֶר:</label><textarea id="school" rows="1"></textarea></div>
+      <div class="form-group"><label for="teacher">שֵׁם הַמְּחַנֶּכֶת שֶׁלִּי:</label><textarea id="teacher" rows="1"></textarea></div>
+      <div style="text-align: center; margin-top: 30px;"><i class="fas fa-camera-retro" style="font-size: 6rem; color: #555;"></i></div>
     </div>
 
     <!-- Page 2: Favorites -->
     <div class="page" id="page2">
-      <h2><i class="fas fa-gamepad"></i> הַמִּשְׂחָק שֶׁנֶּהֱנֵיתִי לְשַׂחֵק עִם חֲבֵרִים:</h2>
-      <div class="form-group">
-        <textarea id="favorite-game"></textarea>
-      </div>
-      
-      <h2><i class="fas fa-user-friends"></i> הֶחָבֵר הֲכִי טוֹב שֶׁלִּי:</h2>
-      <div class="form-group">
-        <textarea id="best-friend"></textarea>
-      </div>
-      
-      <h2><i class="fas fa-paint-brush"></i> הַיְּצִירָה הָאֲהוּבָה עָלַי:</h2>
-      <div class="form-group">
-        <textarea id="favorite-art"></textarea>
-      </div>
-      
-      <h2><i class="fas fa-sandwich"></i> אֲרוּחַת עֶשֶׂר הֲכִי טְעִימָה:</h2>
-      <div class="form-group">
-        <textarea id="favorite-food"></textarea>
-      </div>
+      <h2><i class="fas fa-gamepad"></i> הַמִּשְׂחָק שֶׁנֶּהֱנֵיתִי לְשַׂחֵק עִם חֲבֵרִים:</h2><div class="form-group"><textarea id="favorite-game"></textarea></div>
+      <h2><i class="fas fa-user-friends"></i> הֶחָבֵר הֲכִי טוֹב שֶׁלִּי:</h2><div class="form-group"><textarea id="best-friend"></textarea></div>
+      <h2><i class="fas fa-paint-brush"></i> הַיְּצִירָה הָאֲהוּבָה עָלַי:</h2><div class="form-group"><textarea id="favorite-art"></textarea></div>
+      <h2><i class="fas fa-sandwich"></i> אֲרוּחַת עֶשֶׂר הֲכִי טְעִימָה:</h2><div class="form-group"><textarea id="favorite-food"></textarea></div>
     </div>
 
     <!-- Page 3: Learning & Fun -->
     <div class="page" id="page3">
-      <h2><i class="fas fa-laptop-house"></i> פְּעִילוּת שֶׁאָהַבְתִּי בַּלְּמִידָה מֵרָחוֹק:</h2>
-      <div class="form-group">
-        <textarea id="remote-activity"></textarea>
-      </div>
-      
-      <h2><i class="fas fa-chalkboard-teacher"></i> הַשִּׁעוּר הֶאָהוּב עָלַי:</h2>
-      <div class="form-group">
-        <textarea id="favorite-lesson"></textarea>
-      </div>
-      
-      <h2><i class="fas fa-grin-tears"></i> מִקְרֶה מַצְחִיק שֶׁקָּרָה לִי הַשָּׁנָה:</h2>
-      <div class="form-group">
-        <textarea id="funny-moment"></textarea>
-      </div>
-      
-      <h2><i class="fas fa-lightbulb"></i> דָּבָר חָדָשׁ שֶׁלָּמַדְתִּי הַשָּׁנָה:</h2>
-      <div class="form-group">
-        <textarea id="new-learning"></textarea>
-      </div>
+      <h2><i class="fas fa-laptop-house"></i> פְּעִילוּת שֶׁאָהַבְתִּי בַּלְּמִידָה מֵרָחוֹק:</h2><div class="form-group"><textarea id="remote-activity"></textarea></div>
+      <h2><i class="fas fa-chalkboard-teacher"></i> הַשִּׁעוּר הֶאָהוּב עָלַי:</h2><div class="form-group"><textarea id="favorite-lesson"></textarea></div>
+      <h2><i class="fas fa-grin-tears"></i> מִקְרֶה מַצְחִיק שֶׁקָּרָה לִי הַשָּׁנָה:</h2><div class="form-group"><textarea id="funny-moment"></textarea></div>
+      <h2><i class="fas fa-lightbulb"></i> דָּבָר חָדָשׁ שֶׁלָּמַדְתִּי הַשָּׁנָה:</h2><div class="form-group"><textarea id="new-learning"></textarea></div>
     </div>
 
     <!-- Page 4: Feelings & Success -->
     <div class="page" id="page4">
-      <h2><i class="fas fa-music"></i> שִׁיר שֶׁנֶּהֱנֵיתִי לָשִׁיר הַשָּׁנָה:</h2>
-      <div class="form-group">
-        <textarea id="favorite-song"></textarea>
-      </div>
-      
-      <h2><i class="fas fa-smile-beam"></i> דָּבָר מְשַׂמֵּחַ שֶׁקָּרָה לִי הַשָּׁנָה:</h2>
-      <div class="form-group">
-        <textarea id="happy-moment"></textarea>
-      </div>
-
-      <h2><i class="fas fa-trophy"></i> הַשָּׁנָה הִצְלַחְתִּי בְּ:</h2>
-      <div class="form-group">
-        <textarea id="success"></textarea>
-      </div>
-
-      <h2><i class="fas fa-id-card"></i> אֲנִי רוֹצֶה שֶׁתֵּדְעוּ עָלַי שֶׁ:</h2>
-      <div class="form-group">
-        <textarea id="about-me"></textarea>
-      </div>
+      <h2><i class="fas fa-music"></i> שִׁיר שֶׁנֶּהֱנֵיתִי לָשִׁיר הַשָּׁנָה:</h2><div class="form-group"><textarea id="favorite-song"></textarea></div>
+      <h2><i class="fas fa-smile-beam"></i> דָּבָר מְשַׂמֵּחַ שֶׁקָּרָה לִי הַשָּׁנָה:</h2><div class="form-group"><textarea id="happy-moment"></textarea></div>
+      <h2><i class="fas fa-trophy"></i> הַשָּׁנָה הִצְלַחְתִּי בְּ:</h2><div class="form-group"><textarea id="success"></textarea></div>
+      <h2><i class="fas fa-id-card"></i> אֲנִי רוֹצֶה שֶׁתֵּדְעוּ עָלַי שֶׁ:</h2><div class="form-group"><textarea id="about-me"></textarea></div>
     </div>
 
-    <!-- Page 5: Messages from Friends -->
+    <!-- Page 5: Messages from Friends with Speech-to-Text -->
     <div class="page" id="page5">
       <h1><i class="fas fa-comments"></i> הַחֲבֵרִים כּוֹתְבִים לִי:</h1>
       <div class="sticky-notes-container">
         <div class="sticky-note sticky-note-1">
           <textarea id="friend-msg-1" placeholder="חבר/ה יכול/ה לכתוב כאן..."></textarea>
+          <i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-1" title="הקלט ברכה"></i>
         </div>
         <div class="sticky-note sticky-note-2">
           <textarea id="friend-msg-2" placeholder="וגם כאן..."></textarea>
+          <i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-2" title="הקלט ברכה"></i>
         </div>
         <div class="sticky-note sticky-note-3">
           <textarea id="friend-msg-3" placeholder="ועוד אחד..."></textarea>
+          <i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-3" title="הקלט ברכה"></i>
         </div>
         <div class="sticky-note sticky-note-4">
           <textarea id="friend-msg-4" placeholder="מקום אחרון..."></textarea>
+          <i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-4" title="הקלט ברכה"></i>
         </div>
       </div>
     </div>
@@ -330,23 +184,17 @@
     <!-- Page 6: Goodbye & Vacation -->
     <div class="page" id="page6">
         <h1><i class="fas fa-sun" style="color: #ffc300;"></i> חופְשָׁה נְעִימָה!</h1>
-        <div class="postcard">
+        <div class="postcard" style="border: 2px dashed #333; padding: 20px; background-color: #fdfcdc; border-radius: 10px;">
             <h2><i class="fas fa-paper-plane"></i> לַשָּׁנָה הַבָּאָה אֲנִי מְאַחֵל/מְאַחֶלֶת לְעַצְמִי:</h2>
-            <div class="form-group">
-                <textarea id="next-year-wish"></textarea>
-            </div>
+            <div class="form-group"><textarea id="next-year-wish"></textarea></div>
         </div>
-        <div style="text-align: center; margin-top: 40px;">
-            <i class="fas fa-suitcase-rolling" style="font-size: 6rem; color: #8338ec;"></i>
-        </div>
+        <div style="text-align: center; margin-top: 40px;"><i class="fas fa-suitcase-rolling" style="font-size: 6rem; color: #8338ec;"></i></div>
     </div>
 
     <!-- Navigation -->
     <div class="navigation">
       <button class="nav-button" id="prev-btn" disabled>הַקּוֹדֵם</button>
-      <div class="page-indicator">
-        עַמּוּד <span id="current-page-num">1</span> מִתּוֹךְ <span id="total-page-num">6</span>
-      </div>
+      <div class="page-indicator">עַמּוּד <span id="current-page-num">1</span> מִתּוֹךְ <span id="total-page-num">6</span></div>
       <button class="nav-button no-print" id="print-btn" style="display: none;" onclick="window.print()">הַדְפֵּס</button>
       <button class="nav-button" id="next-btn">הַבָּא</button>
     </div>
@@ -365,13 +213,9 @@
       totalPageNum.textContent = pages.length;
 
       const showPage = (pageIndex) => {
-        pages.forEach((page, index) => {
-          page.classList.toggle('active', index === pageIndex);
-        });
+        pages.forEach((page, index) => { page.classList.toggle('active', index === pageIndex); });
         currentPageNum.textContent = pageIndex + 1;
-        
         prevBtn.disabled = pageIndex === 0;
-        
         if (pageIndex === pages.length - 1) {
             nextBtn.style.display = 'none';
             printBtn.style.display = 'inline-block';
@@ -381,34 +225,55 @@
         }
       };
 
-      nextBtn.addEventListener('click', () => {
-        if (currentPage < pages.length - 1) {
-          currentPage++;
-          showPage(currentPage);
-        }
-      });
-
-      prevBtn.addEventListener('click', () => {
-        if (currentPage > 0) {
-          currentPage--;
-          showPage(currentPage);
-        }
-      });
+      nextBtn.addEventListener('click', () => { if (currentPage < pages.length - 1) { currentPage++; showPage(currentPage); } });
+      prevBtn.addEventListener('click', () => { if (currentPage > 0) { currentPage--; showPage(currentPage); } });
       
-      // Save and Load from localStorage
       const textareas = document.querySelectorAll('textarea');
       textareas.forEach(textarea => {
-          // Load saved data
           const savedValue = localStorage.getItem(textarea.id);
-          if (savedValue) {
-              textarea.value = savedValue;
-          }
-          
-          // Save data on input
-          textarea.addEventListener('input', () => {
-              localStorage.setItem(textarea.id, textarea.value);
-          });
+          if (savedValue) { textarea.value = savedValue; }
+          textarea.addEventListener('input', () => { localStorage.setItem(textarea.id, textarea.value); });
       });
+
+      // --- Speech to Text (STT) for Page 5 ---
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'he-IL';
+        recognition.continuous = false;
+        recognition.interimResults = false;
+
+        let targetTextarea = null;
+        let activeMicIcon = null;
+
+        document.querySelectorAll('#page5 .speech-icon').forEach(micIcon => {
+          micIcon.addEventListener('click', () => {
+            if (activeMicIcon) { // Stop listening if a mic is already active
+                recognition.stop();
+                return;
+            }
+            targetTextarea = document.getElementById(micIcon.dataset.targetTextarea);
+            activeMicIcon = micIcon;
+            try {
+              recognition.start();
+            } catch (e) { console.error("Speech recognition could not start.", e); }
+          });
+        });
+
+        recognition.onstart = () => { if (activeMicIcon) activeMicIcon.classList.add('listening'); };
+        recognition.onend = () => { if (activeMicIcon) activeMicIcon.classList.remove('listening'); activeMicIcon = null; };
+        recognition.onresult = (event) => {
+          const transcript = event.results[0][0].transcript;
+          if (targetTextarea) {
+            targetTextarea.value += transcript + '. '; // Add a period for better sentence structure
+            localStorage.setItem(targetTextarea.id, targetTextarea.value); // Save to local storage
+          }
+        };
+        recognition.onerror = (event) => { console.error('Speech recognition error:', event.error); };
+      } else {
+        console.warn("SpeechRecognition is not supported in this browser.");
+        document.querySelectorAll('.speech-icon').forEach(icon => icon.style.display = 'none');
+      }
 
       showPage(currentPage);
     });
