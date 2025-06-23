@@ -151,21 +151,18 @@
             background-color: var(--main-purple);
             color: var(--text-light);
             text-align: center;
-            padding: 60px 20px;
+            padding: 80px 20px; /* Increased padding to compensate for logo removal */
             border-radius: 8px;
             margin: -30px; 
         }
-        #slide1 .slide1-logo {
-            width: 120px;
-            margin-bottom: 20px;
-        }
+        
         #slide1 h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem; /* Slightly larger */
             margin: 10px 0;
             font-weight: 700;
         }
         #slide1 h2 {
-            font-size: 1.5rem;
+            font-size: 1.6rem; /* Slightly larger */
             font-weight: 400;
             opacity: 0.9;
         }
@@ -366,7 +363,7 @@
 <body>
     <div class="presentation-container">
         <header>
-             <img src="data:image/png;base64,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" alt="לוגו משרד החינוך - סמל מדינת ישראל" class="header-logo">
+             <img src="logo_minhal.png" alt="לוגו משרד החינוך" class="header-logo">
              <div class="header-content">
                 <button id="print-button">🖨️ הדפסה / שמירה כ-PDF</button>
                 <nav>
@@ -388,7 +385,6 @@
         <main>
             <!-- Slide 1: Title -->
             <div class="slide active-slide" id="slide1">
-                <img src="data:image/png;base64,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" alt="סמל מדינת ישראל" class="slide1-logo">
                 <h1>בית הספר של החופש הגדול<br>לכיתות ד'-ו'</h1>
                 <h2>קיץ של חקר וגילוי</h2>
                 <p>יולי 2025</p>
@@ -504,7 +500,7 @@
                 <table class="data-table">
                     <tbody>
                         <tr><th>משך הפעילות</th><td>3 ימים קבועים בשבוע, בין 1.07.25 ל-21.07.25, 08:00-13:00</td></tr>
-                        <tr><th>מודל הפעלה</th><td>גורם מפעיל: החברה למתנ"סים, קרב, או גוף ייעודי אחר</td></tr>
+                        <tr><th>מודל הפעלה</th><td>גורם מפעיל: החברה למתנ"סים או גוף ייעודי אחר</td></tr>
                         <tr><th>רכיבי הפעילות</th><td><span class="highlight">מיומנויות יסוד בחקר</span> | הפגה ומשחק | העשרה תרבותית</td></tr>
                         <tr><th>כוח אדם</th><td>רכז תוכנית, מדריך לקבוצה של עד 28 תלמידים</td></tr>
                     </tbody>
