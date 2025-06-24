@@ -58,18 +58,10 @@
     label { display: block; font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; color: var(--text-color); }
 
     textarea {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 15px;
-      border: 2px solid #ccc;
-      border-radius: 10px;
-      font-size: 1.3rem;
-      font-family: 'Frank Ruhl Libre', serif;
-      min-height: 100px;
-      resize: vertical;
-      transition: border-color 0.3s;
+      width: 100%; box-sizing: border-box; padding: 15px; border: 2px solid #ccc;
+      border-radius: 10px; font-size: 1.3rem; font-family: 'Frank Ruhl Libre', serif;
+      min-height: 100px; resize: vertical; transition: border-color 0.3s;
     }
-
     textarea:focus { border-color: var(--primary-color); outline: none; }
 
     .navigation { display: flex; justify-content: space-between; align-items: center; margin-top: 30px; padding-top: 20px; border-top: 2px dashed #ddd; }
@@ -77,6 +69,7 @@
     .nav-button:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
     .nav-button:disabled { background-color: #ccc; cursor: not-allowed; }
     #print-btn { background-color: #28a745; }
+    #reset-btn { background-color: #e74c3c; position: absolute; top: 15px; left: 15px; padding: 8px 12px; }
     .page-indicator { font-size: 1.3rem; font-weight: bold; color: var(--text-color); }
 
     .sticky-notes-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
@@ -87,15 +80,7 @@
     .sticky-note-3 { background-color: #a7d7ff; }
     .sticky-note-4 { background-color: #ffb5a7; }
 
-    .speech-icon {
-      position: absolute;
-      left: 15px;
-      bottom: 15px;
-      font-size: 1.8rem;
-      cursor: pointer;
-      color: #888;
-      transition: color 0.3s, transform 0.3s;
-    }
+    .speech-icon { position: absolute; left: 15px; bottom: 15px; font-size: 1.8rem; cursor: pointer; color: #888; transition: color 0.3s, transform 0.3s; }
     .speech-icon:hover { color: var(--primary-color); transform: scale(1.1); }
     .speech-icon.listening { color: #e74c3c; animation: pulse 1.5s infinite; }
     
@@ -109,13 +94,18 @@
       body { padding: 0; background-color: white; }
       .container { box-shadow: none; border: none; }
       .navigation, .no-print { display: none !important; }
-      .page { page-break-after: always; }
+      .page {
+        display: block !important; /* Show all pages for printing */
+        page-break-after: always;
+        animation: none;
+      }
       .page:last-child { page-break-after: avoid; }
     }
     
     @media (max-width: 600px) {
       .navigation { flex-direction: column; gap: 15px; }
       .nav-button { width: 100%; }
+      #reset-btn { top: 10px; left: 10px; }
     }
     
   </style>
@@ -126,6 +116,9 @@
     
     <!-- Page 1: Cover -->
     <div class="page active" id="page1">
+      <button id="reset-btn" class="nav-button no-print" title="התחל מחדש">
+        <i class="fas fa-trash-alt"></i>
+      </button>
       <h1><i class="fas fa-heart" style="color: #ff6b6b;"></i> סֵפֶר הַזִּכְרוֹנוֹת שֶׁלִּי</h1>
       <h2>מִכִּתָּה א'</h2>
       <div class="form-group"><label for="name">שֵׁם:</label><textarea id="name" rows="1"></textarea></div>
@@ -162,29 +155,17 @@
     <div class="page" id="page5">
       <h1><i class="fas fa-comments"></i> הַחֲבֵרִים כּוֹתְבִים לִי:</h1>
       <div class="sticky-notes-container">
-        <div class="sticky-note sticky-note-1">
-          <textarea id="friend-msg-1" placeholder="חבר/ה יכול/ה לכתוב כאן..."></textarea>
-          <i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-1" title="הקלט ברכה"></i>
-        </div>
-        <div class="sticky-note sticky-note-2">
-          <textarea id="friend-msg-2" placeholder="וגם כאן..."></textarea>
-          <i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-2" title="הקלט ברכה"></i>
-        </div>
-        <div class="sticky-note sticky-note-3">
-          <textarea id="friend-msg-3" placeholder="ועוד אחד..."></textarea>
-          <i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-3" title="הקלט ברכה"></i>
-        </div>
-        <div class="sticky-note sticky-note-4">
-          <textarea id="friend-msg-4" placeholder="מקום אחרון..."></textarea>
-          <i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-4" title="הקלט ברכה"></i>
-        </div>
+        <div class="sticky-note sticky-note-1"><textarea id="friend-msg-1" placeholder="חבר/ה יכול/ה לכתוב כאן..."></textarea><i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-1" title="הקלט ברכה"></i></div>
+        <div class="sticky-note sticky-note-2"><textarea id="friend-msg-2" placeholder="וגם כאן..."></textarea><i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-2" title="הקלט ברכה"></i></div>
+        <div class="sticky-note sticky-note-3"><textarea id="friend-msg-3" placeholder="ועוד אחד..."></textarea><i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-3" title="הקלט ברכה"></i></div>
+        <div class="sticky-note sticky-note-4"><textarea id="friend-msg-4" placeholder="מקום אחרון..."></textarea><i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-4" title="הקלט ברכה"></i></div>
       </div>
     </div>
 
     <!-- Page 6: Goodbye & Vacation -->
     <div class="page" id="page6">
         <h1><i class="fas fa-sun" style="color: #ffc300;"></i> חופְשָׁה נְעִימָה!</h1>
-        <div class="postcard" style="border: 2px dashed #333; padding: 20px; background-color: #fdfcdc; border-radius: 10px;">
+        <div style="border: 2px dashed #333; padding: 20px; background-color: #fdfcdc; border-radius: 10px;">
             <h2><i class="fas fa-paper-plane"></i> לַשָּׁנָה הַבָּאָה אֲנִי מְאַחֵל/מְאַחֶלֶת לְעַצְמִי:</h2>
             <div class="form-group"><textarea id="next-year-wish"></textarea></div>
         </div>
@@ -195,7 +176,7 @@
     <div class="navigation">
       <button class="nav-button" id="prev-btn" disabled>הַקּוֹדֵם</button>
       <div class="page-indicator">עַמּוּד <span id="current-page-num">1</span> מִתּוֹךְ <span id="total-page-num">6</span></div>
-      <button class="nav-button no-print" id="print-btn" style="display: none;" onclick="window.print()">הַדְפֵּס</button>
+      <button class="nav-button no-print" id="print-btn" style="display: none;" onclick="window.print()">הַדְפֵּס / שְׁמוֹר</button>
       <button class="nav-button" id="next-btn">הַבָּא</button>
     </div>
   </div>
@@ -206,12 +187,15 @@
       const prevBtn = document.getElementById('prev-btn');
       const nextBtn = document.getElementById('next-btn');
       const printBtn = document.getElementById('print-btn');
+      const resetBtn = document.getElementById('reset-btn');
       const currentPageNum = document.getElementById('current-page-num');
       const totalPageNum = document.getElementById('total-page-num');
       
       let currentPage = 0;
+      const allTextareas = document.querySelectorAll('textarea');
       totalPageNum.textContent = pages.length;
 
+      // --- Functions ---
       const showPage = (pageIndex) => {
         pages.forEach((page, index) => { page.classList.toggle('active', index === pageIndex); });
         currentPageNum.textContent = pageIndex + 1;
@@ -223,16 +207,38 @@
             nextBtn.style.display = 'inline-block';
             printBtn.style.display = 'none';
         }
+        // Show/hide reset button only on the first page
+        resetBtn.style.display = (pageIndex === 0) ? 'block' : 'none';
       };
 
+      const loadData = () => {
+          allTextareas.forEach(textarea => {
+              const savedValue = localStorage.getItem(textarea.id);
+              if (savedValue) { textarea.value = savedValue; }
+          });
+      };
+
+      const saveData = (textarea) => {
+          localStorage.setItem(textarea.id, textarea.value);
+      };
+
+      const clearAllData = () => {
+          if (confirm('האם את/ה בטוח/ה שברצונך למחוק הכל ולהתחיל מחדש?')) {
+              allTextareas.forEach(textarea => {
+                  textarea.value = '';
+                  localStorage.removeItem(textarea.id);
+              });
+              alert('כל הנתונים נמחקו. בהצלחה!');
+          }
+      };
+
+      // --- Event Listeners ---
       nextBtn.addEventListener('click', () => { if (currentPage < pages.length - 1) { currentPage++; showPage(currentPage); } });
       prevBtn.addEventListener('click', () => { if (currentPage > 0) { currentPage--; showPage(currentPage); } });
+      resetBtn.addEventListener('click', clearAllData);
       
-      const textareas = document.querySelectorAll('textarea');
-      textareas.forEach(textarea => {
-          const savedValue = localStorage.getItem(textarea.id);
-          if (savedValue) { textarea.value = savedValue; }
-          textarea.addEventListener('input', () => { localStorage.setItem(textarea.id, textarea.value); });
+      allTextareas.forEach(textarea => {
+          textarea.addEventListener('input', () => saveData(textarea));
       });
 
       // --- Speech to Text (STT) for Page 5 ---
@@ -248,7 +254,7 @@
 
         document.querySelectorAll('#page5 .speech-icon').forEach(micIcon => {
           micIcon.addEventListener('click', () => {
-            if (activeMicIcon) { // Stop listening if a mic is already active
+            if (activeMicIcon) {
                 recognition.stop();
                 return;
             }
@@ -261,12 +267,12 @@
         });
 
         recognition.onstart = () => { if (activeMicIcon) activeMicIcon.classList.add('listening'); };
-        recognition.onend = () => { if (activeMicIcon) activeMicIcon.classList.remove('listening'); activeMicIcon = null; };
+        recognition.onend = () => { if (activeMicIcon) { activeMicIcon.classList.remove('listening'); activeMicIcon = null; } };
         recognition.onresult = (event) => {
           const transcript = event.results[0][0].transcript;
           if (targetTextarea) {
-            targetTextarea.value += transcript + '. '; // Add a period for better sentence structure
-            localStorage.setItem(targetTextarea.id, targetTextarea.value); // Save to local storage
+            targetTextarea.value += transcript + '. ';
+            saveData(targetTextarea); // Save after transcription
           }
         };
         recognition.onerror = (event) => { console.error('Speech recognition error:', event.error); };
@@ -275,6 +281,8 @@
         document.querySelectorAll('.speech-icon').forEach(icon => icon.style.display = 'none');
       }
 
+      // --- Initial Load ---
+      loadData();
       showPage(currentPage);
     });
   </script>
