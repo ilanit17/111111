@@ -54,7 +54,7 @@
     h1 { text-align: center; color: var(--primary-color); font-size: 2.5rem; margin-bottom: 10px; }
     h2 { color: var(--accent-color); font-size: 1.8rem; margin-top: 25px; margin-bottom: 15px; display: flex; align-items: center; gap: 15px; }
     h2 .fas { font-size: 2rem; color: var(--secondary-color); }
-    .page-instructions { font-size: 1.2rem; text-align: center; color: #555; margin-bottom: 20px; padding: 0 10px; }
+    .page-instructions { font-size: 1.2rem; text-align: center; color: #555; margin-bottom: 20px; padding: 0 10px; line-height: 1.6; }
     .form-group { margin-bottom: 25px; }
     label { display: block; font-size: 1.5rem; font-weight: bold; margin-bottom: 10px; color: var(--text-color); }
 
@@ -150,13 +150,11 @@
     <div class="page" id="page5">
       <h1><i class="fas fa-comments"></i> הַחֲבֵרִים כּוֹתְבִים לִי:</h1>
       <p class="page-instructions">
-        בַּקְּשׁוּ מֵחָבֵר אוֹ מֵחֲבֵרָה לִלְחֹץ עַל הַמִּיקְרוֹפוֹן וּלְהַגִּיד לָכֶם בְּרָכָה.<br>
-        הַמִּלִּים שֶׁיֵּאָמְרוּ יֵהָפְכוּ לִכְתָב. אַל תִּשְׁכְּחוּ לוֹמַר אֶת הַשֵּׁם!
+        בַּקְּשׁוּ  מֵחָבֵר אוֹ חֲבֵרָה לִלְחֹץ עַל הַמִּיקְרוֹפוֹן אִם הוּא קָרוֹב אֲלֵיכֶם וּלְהַגִּיד לָכֶם בְּרָכָה. אִם הוּא רָחוֹק, לַחֲצוּ עַל הַמִּיקְרוֹפוֹן וְהַקְלִיטוּ אֶת דְּבָרָיו.<br>
+        הַדְּבָרִים שֶׁיֵּאָמְרוּ יֵהָפְכוּ לִכְתָב. אַל תִּשְׁכְּחוּ לְהַגִּיד אֶת הַשֵּׁם!
       </p>
       <div class="sticky-notes-container">
-        <div class="sticky-note sticky-note-1">
-          <textarea id="friend-msg-example" readonly>דֻּגְמָה: "הַיי, זוֹ יָעֵל! הָיָה לִי מַמָּשׁ כֵּיף לְשַׂחֵק אִתְּךָ הַשָּׁנָה. חֻפְשָׁה נְעִימָה!"</textarea>
-        </div>
+        <div class="sticky-note sticky-note-1"><textarea id="friend-msg-1" placeholder="מָקוֹם לִבְרָכָה..."></textarea><i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-1" title="הַקְלָטַת בְּרָכָה"></i></div>
         <div class="sticky-note sticky-note-2"><textarea id="friend-msg-2" placeholder="מָקוֹם לִבְרָכָה..."></textarea><i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-2" title="הַקְלָטַת בְּרָכָה"></i></div>
         <div class="sticky-note sticky-note-3"><textarea id="friend-msg-3" placeholder="מָקוֹם לִבְרָכָה..."></textarea><i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-3" title="הַקְלָטַת בְּרָכָה"></i></div>
         <div class="sticky-note sticky-note-4"><textarea id="friend-msg-4" placeholder="מָקוֹם לִבְרָכָה..."></textarea><i class="fas fa-microphone speech-icon" data-target-textarea="friend-msg-4" title="הַקְלָטַת בְּרָכָה"></i></div>
@@ -213,7 +211,6 @@
 
       const loadData = () => {
           allTextareas.forEach(textarea => {
-              if (textarea.id === 'friend-msg-example') return; // Don't load data for the example
               const savedValue = localStorage.getItem(textarea.id);
               if (savedValue) { textarea.value = savedValue; }
           });
@@ -226,7 +223,6 @@
       const clearAllData = () => {
           if (confirm('הַאִם אַתְּ/אַתָּה בָּטוּחַ/בְּטוּחָה שֶׁבִּרְצוֹנְךָ/שֶׁבִּרְצוֹנֵךְ לִמְחֹק הַכֹּל וּלְהַתְחִיל מֵחָדָשׁ?')) {
               allTextareas.forEach(textarea => {
-                  if (textarea.id === 'friend-msg-example') return; // Don't clear the example
                   textarea.value = '';
                   localStorage.removeItem(textarea.id);
               });
@@ -240,9 +236,7 @@
       resetBtn.addEventListener('click', clearAllData);
       
       allTextareas.forEach(textarea => {
-        if (textarea.id !== 'friend-msg-example') {
           textarea.addEventListener('input', () => saveData(textarea));
-        }
       });
 
       // --- Speech to Text (STT) for Page 5 ---
