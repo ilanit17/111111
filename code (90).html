@@ -54,6 +54,23 @@
         button:hover {
             background-color: #2980b9;
         }
+        /* --- [שינוי] עיצוב לכפתורי הפעולה החדשים --- */
+        .action-buttons {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .action-buttons button {
+            background-color: #27ae60; /* צבע ירוק להורדה */
+        }
+        .action-buttons button.print-btn {
+            background-color: #8e44ad; /* צבע סגול להדפסה */
+        }
+        .action-buttons button:hover {
+            opacity: 0.9;
+        }
+        #resultsActions {
+            display: none; /* הסתרה כברירת מחדל */
+        }
         .results {
             margin-top: 30px;
         }
@@ -71,7 +88,6 @@
         th {
             background-color: #34495e;
             color: white;
-            font-weight: bold;
         }
         .top5 {
             background-color: #e8f5e8;
@@ -92,13 +108,41 @@
             margin-bottom: 20px;
             font-size: 14px;
         }
+        
+        /* --- [חדש] סגנונות הדפסה --- */
+        @media print {
+            body {
+                background-color: white;
+            }
+            .no-print {
+                display: none !important; /* הסתרת כל האלמנטים שלא רלוונטיים להדפסה */
+            }
+            .container {
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+                max-width: 100%;
+            }
+            table {
+                font-size: 12px; /* הקטנת הפונט להתאמה לדף */
+            }
+            th, td {
+                padding: 8px;
+            }
+            /* כופה על הדפדפן להדפיס צבעי רקע */
+            .rank-1, .rank-2, .rank-3, .top5, th {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🎯 כלי ניתוח תיעדוף אתגרים</h1>
+        <!-- [שינוי] הוספת קלאס no-print לאלמנטים שברצוננו להסתיר בהדפסה -->
+        <h1 class="no-print">🎯 כלי ניתוח תיעדוף אתגרים</h1>
         
-        <div class="criteria-legend">
+        <div class="criteria-legend no-print">
             <h3>📋 הקריטריונים להערכה:</h3>
             <ul>
                 <li><strong>קריטריון 1 - יישימות:</strong> עד כמה ניתן לבצע בפועל</li>
@@ -108,7 +152,7 @@
             </ul>
         </div>
 
-        <div class="upload-section">
+        <div class="upload-section no-print">
             <h3>📁 העלאת קובץ</h3>
             <p>בחרו את הקובץ המיוצא מ-Google Forms (תומך בפורמטים: CSV, XLS, XLSX)</p>
             <input type="file" id="fileInput" accept=".csv,.xls,.xlsx" />
@@ -116,10 +160,22 @@
             <button onclick="processFile()">עבד קובץ</button>
         </div>
         
-        <div id="results" class="results"></div>
+        <div id="results" class="results">
+            <!-- התוצאות יוצגו כאן -->
+        </div>
+
+        <!-- [חדש] אזור כפתורים להורדה והדפסה -->
+        <div id="resultsActions" class="action-buttons no-print">
+            <button onclick="downloadResults()">⬇️ הורד תוצאות (CSV)</button>
+            <button onclick="window.print()" class="print-btn">🖨️ הדפס תוצאות</button>
+        </div>
+
     </div>
 
     <script>
+        // --- [חדש] משתנה גלובלי לשמירת התוצאות המעובדות ---
+        let processedResults = [];
+
         function processFile() {
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
@@ -249,6 +305,9 @@
             
             results.sort((a, b) => b.overall - a.overall);
             
+            // --- [שינוי] שמירת התוצאות במשתנה הגלובלי ---
+            processedResults = results;
+            
             displayResults(results, data.length);
         }
 
@@ -262,6 +321,8 @@
             
             if (results.length === 0) {
                 resultsDiv.innerHTML = `<div class="summary"><h3>לא נמצאו נתונים תקפים לחישוב.</h3><p>אנא ודאו שהקובץ מכיל ציונים מספריים בעמודות המתאימות.</p></div>`;
+                // --- [שינוי] הסתרת הכפתורים אם אין תוצאות ---
+                document.getElementById('resultsActions').style.display = 'none';
                 return;
             }
 
@@ -351,6 +412,59 @@
             `;
             
             resultsDiv.innerHTML = html;
+
+            // --- [שינוי] הצגת כפתורי הפעולה לאחר שהתוצאות הוצגו ---
+            document.getElementById('resultsActions').style.display = 'block';
+        }
+
+        // --- [חדש] פונקציה להורדת התוצאות כקובץ CSV ---
+        function downloadResults() {
+            if (processedResults.length === 0) {
+                alert("אין תוצאות להורדה.");
+                return;
+            }
+
+            const headers = [
+                "דירוג",
+                "אתגר",
+                "יישימות (ממוצע)",
+                "רלוונטיות (ממוצע)",
+                "דחיפות (ממוצע)",
+                "זיקה ליעדי המשרד (ממוצע)",
+                "ציון כולל (ממוצע)",
+                "מספר משיבים לאתגר"
+            ];
+
+            // המרה לפורמט CSV
+            let csvContent = headers.join(",") + "\n";
+            processedResults.forEach((result, index) => {
+                const row = [
+                    index + 1,
+                    result.challenge,
+                    result.implementability.toFixed(2),
+                    result.relevance.toFixed(2),
+                    result.urgency.toFixed(2),
+                    result.alignment.toFixed(2),
+                    result.overall.toFixed(2),
+                    result.responseCount
+                ];
+                csvContent += row.join(",") + "\n";
+            });
+
+            // יצירת קובץ והורדה
+            // הוספת BOM כדי שאקסל יזהה עברית נכון בפתיחה ישירה
+            const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            if (link.download !== undefined) { 
+                const url = URL.createObjectURL(blob);
+                const date = new Date().toISOString().slice(0, 10);
+                link.setAttribute("href", url);
+                link.setAttribute("download", `תוצאות_תיעדוף_${date}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
         }
     </script>
 </body>
