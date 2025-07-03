@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>כלי ניתוח תיעדוף אתגרים</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/papaparse/5.4.1/papaparse.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .upload-section {
+            border: 2px dashed #3498db;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            background-color: #ecf0f1;
+        }
+        .upload-section:hover {
+            background-color: #d5dbdb;
+        }
+        input[type="file"] {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .results {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #34495e;
+            color: white;
+            font-weight: bold;
+        }
+        .top5 {
+            background-color: #e8f5e8;
+        }
+        .rank-1 { background-color: #f1c40f; color: #2c3e50; font-weight: bold; }
+        .rank-2 { background-color: #95a5a6; color: white; font-weight: bold; }
+        .rank-3 { background-color: #e67e22; color: white; font-weight: bold; }
+        .summary {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .criteria-legend {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 כלי ניתוח תיעדוף אתגרים</h1>
+        
+        <div class="criteria-legend">
+            <h3>📋 הקריטריונים להערכה:</h3>
+            <ul>
+                <li><strong>קריטריון 1 - יישימות:</strong> עד כמה ניתן לבצע בפועל</li>
+                <li><strong>קריטריון 2 - רלוונטיות:</strong> לגיל היסודי ולתקופה</li>
+                <li><strong>קריטריון 3 - דחיפות:</strong> דרגת הדחיפות</li>
+                <li><strong>קריטריון 4 - זיקה ליעדי המשרד:</strong> התאמה למטרות הארגון</li>
+            </ul>
+        </div>
+
+        <div class="upload-section">
+            <h3>📁 העלאת קובץ</h3>
+            <p>בחרו את הקובץ המיוצא מ-Google Forms (תומך בפורמטים: CSV, XLS, XLSX)</p>
+            <input type="file" id="fileInput" accept=".csv,.xls,.xlsx" />
+            <br>
+            <button onclick="processFile()">עבד קובץ</button>
+        </div>
+        
+        <div id="results" class="results"></div>
+    </div>
+
+    <script>
+        function processFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('אנא בחרו קובץ');
+                return;
+            }
+            
+            const fileName = file.name.toLowerCase();
+            const fileExtension = fileName.split('.').pop();
+            
+            if (fileExtension === 'csv') {
+                if (typeof Papa === 'undefined') {
+                    alert('שגיאה: ספריית PapaParse לא נטענה. אנא רעננו את הדף ונסו שוב.');
+                    return;
+                }
+                
+                Papa.parse(file, {
+                    header: true,
+                    skipEmptyLines: true,
+                    complete: function(results) {
+                        if (results.data) {
+                            processData(results.data);
+                        } else {
+                            alert('שגיאה בעיבוד קובץ CSV.');
+                        }
+                    },
+                    error: function(error) {
+                        alert('שגיאה בקריאת קובץ CSV: ' + error.message);
+                    }
+                });
+            } else if (fileExtension === 'xlsx' || fileExtension === 'xls') {
+                if (typeof XLSX === 'undefined') {
+                    alert('שגיאה: ספריית XLSX לא נטענה. אנא רעננו את הדף ונסו שוב.');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, {type: 'array'});
+                        
+                        const firstSheetName = workbook.SheetNames[0];
+                        const worksheet = workbook.Sheets[firstSheetName];
+                        
+                        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+                        
+                        processData(jsonData);
+
+                    } catch (error) {
+                        alert('שגיאה בקריאת קובץ האקסל: ' + error.message);
+                        console.error('Excel processing error:', error);
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            } else {
+                alert('פורמט קובץ לא נתמך. אנא בחרו קובץ CSV, XLS או XLSX');
+            }
+        }
+
+        function processData(data) {
+            if (!data || data.length === 0) {
+                alert("לא נמצאו נתונים לעיבוד בקובץ.");
+                return;
+            }
+             
+            const firstRow = data[0];
+            if (!firstRow['אתגר 1 [קריטריון 1 - יישימות]']) {
+                 alert("שגיאה: מבנה הקובץ אינו תואם את הפורמט הנדרש. ודא שהכותרות תקינות.");
+                 console.error("Missing expected headers. First row:", firstRow);
+                 return;
+            }
+            
+            const challenges = {};
+            for (let i = 1; i <= 10; i++) {
+                challenges[`אתגר ${i}`] = {
+                    implementability: [],
+                    relevance: [],
+                    urgency: [],
+                    alignment: []
+                };
+            }
+
+            data.forEach(row => {
+                for (let i = 1; i <= 10; i++) {
+                    const challengeKey = `אתגר ${i}`;
+                    
+                    const impl = parseFloat(row[`אתגר ${i} [קריטריון 1 - יישימות]`]);
+                    const rel = parseFloat(row[`אתגר ${i} [קריטריון 2 - רלוונטיות לגיל היסודי ולתקופה]`]);
+                    const urg = parseFloat(row[`אתגר ${i} [קריטריון 3 - דחיפות]`]);
+                    const align = parseFloat(row[`אתגר ${i} [קריטריון 4 - זיקה ליעדי המשרד]`]);
+                    
+                    if (!isNaN(impl)) challenges[challengeKey].implementability.push(impl);
+                    if (!isNaN(rel)) challenges[challengeKey].relevance.push(rel);
+                    if (!isNaN(urg)) challenges[challengeKey].urgency.push(urg);
+                    if (!isNaN(align)) challenges[challengeKey].alignment.push(align);
+                }
+            });
+
+            const results = [];
+            
+            Object.keys(challenges).forEach(challenge => {
+                const scores = challenges[challenge];
+                
+                const responseCount = scores.implementability.length;
+                if (responseCount === 0) return; 
+
+                const avgImpl = average(scores.implementability);
+                const avgRel = average(scores.relevance);
+                const avgUrg = average(scores.urgency);
+                const avgAlign = average(scores.alignment);
+                
+                const overallAvg = (avgImpl + avgRel + avgUrg + avgAlign) / 4;
+                
+                results.push({
+                    challenge: challenge,
+                    implementability: avgImpl,
+                    relevance: avgRel,
+                    urgency: avgUrg,
+                    alignment: avgAlign,
+                    overall: overallAvg,
+                    responseCount: responseCount
+                });
+            });
+            
+            results.sort((a, b) => b.overall - a.overall);
+            
+            displayResults(results, data.length);
+        }
+
+        function average(arr) {
+            if (arr.length === 0) return 0;
+            return arr.reduce((a, b) => a + b, 0) / arr.length;
+        }
+
+        function displayResults(results, totalResponses) {
+            const resultsDiv = document.getElementById('results');
+            
+            if (results.length === 0) {
+                resultsDiv.innerHTML = `<div class="summary"><h3>לא נמצאו נתונים תקפים לחישוב.</h3><p>אנא ודאו שהקובץ מכיל ציונים מספריים בעמודות המתאימות.</p></div>`;
+                return;
+            }
+
+            const top5 = results.slice(0, 5);
+            
+            let html = `
+                <div class="summary">
+                    <h2>📊 סיכום תוצאות התיעדוף</h2>
+                    <p><strong>מספר כולל של משיבים:</strong> ${totalResponses}</p>
+                    <p><strong>תאריך עיבוד:</strong> ${new Date().toLocaleDateString('he-IL')}</p>
+                </div>
+                
+                <div class="summary">
+                    <h3>🏆 חמשת האתגרים המובילים</h3>
+                    <ol>
+            `;
+            
+            top5.forEach(result => {
+                html += `<li><strong>${result.challenge}</strong> - ציון כולל: ${result.overall.toFixed(2)}</li>`;
+            });
+            
+            html += `
+                    </ol>
+                </div>
+                
+                <h3>📋 טבלת תוצאות מפורטת</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>דירוג</th>
+                            <th>אתגר</th>
+                            <th>יישימות (ממוצע)</th>
+                            <th>רלוונטיות (ממוצע)</th>
+                            <th>דחיפות (ממוצע)</th>
+                            <th>זיקה (ממוצע)</th>
+                            <th>ציון כולל (ממוצע)</th>
+                            <th>מספר משיבים לאתגר</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+            
+            results.forEach((result, index) => {
+                let rowClass = '';
+                if (index < 5) rowClass += ' top5';
+                if (index === 0) rowClass += ' rank-1';
+                if (index === 1) rowClass += ' rank-2';
+                if (index === 2) rowClass += ' rank-3';
+                
+                html += `
+                    <tr class="${rowClass.trim()}">
+                        <td><strong>${index + 1}</strong></td>
+                        <td><strong>${result.challenge}</strong></td>
+                        <td>${result.implementability.toFixed(2)}</td>
+                        <td>${result.relevance.toFixed(2)}</td>
+                        <td>${result.urgency.toFixed(2)}</td>
+                        <td>${result.alignment.toFixed(2)}</td>
+                        <td><strong>${result.overall.toFixed(2)}</strong></td>
+                        <td>${result.responseCount}</td>
+                    </tr>
+                `;
+            });
+            
+            html += `
+                    </tbody>
+                </table>
+                
+                <div style="margin-top: 30px; padding: 20px; background-color: #e8f5e8; border-radius: 10px;">
+                    <h3>💡 המלצות לפעולה</h3>
+                    <p><strong>מומלץ להתמקד ב-5 האתגרים המובילים:</strong></p>
+                    <ul>
+            `;
+            
+            top5.forEach((result) => {
+                html += `<li>${result.challenge} (ציון: ${result.overall.toFixed(2)})</li>`;
+            });
+            
+            html += `
+                    </ul>
+                    <p><strong>שיקולים נוספים:</strong></p>
+                    <ul>
+                        <li>בדקו אתגרים עם סטיית תקן גבוהה בציונים (פערים גדולים בין המשתתפים).</li>
+                        <li>שקלו משאבים זמינים לביצוע האתגרים המובילים.</li>
+                        <li>התייעצו עם בעלי עניין נוספים לגבי התוצאות.</li>
+                    </ul>
+                </div>
+            `;
+            
+            resultsDiv.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
